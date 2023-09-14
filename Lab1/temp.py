@@ -70,16 +70,6 @@ def add_point():
     except ValueError:
         messagebox.showerror("Error", "Invalid input. Please enter numeric values.")
 
-def save_plot():
-    try:
-        # Save the 3D plot to a file
-        file_path = filedialog.asksaveasfilename(defaultextension=".png", filetypes=[("PNG files", "*.png")])
-        if file_path:
-            fig_3d.savefig(file_path)
-            messagebox.showinfo("Success", "Plot saved successfully.")
-
-    except Exception as e:
-        messagebox.showerror("Error", f"An error occurred while saving the plot: {str(e)}")
 
 def close_application():
     root.quit()
@@ -121,6 +111,13 @@ if __name__ == '__main__':
     close_button.grid(row=6, column=1, columnspan=2)
 
     root.mainloop()
-    #plt.show()
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+#Moment draw
+# for x, y, k, f in f2:
+# data_points['x'].append(x)
+# data_points['y'].append(y)
+# data_points['z'].append(f)
+
+# ax_3d.clear()
+# ax_3d.scatter(data_points['x'], data_points['y'], data_points['z'], c='r', marker='o')
+# clearDataPoint()

@@ -9,7 +9,6 @@ def partial_function(f___, input, pos, value):
     input[pos] = tmp
     return ret
 
-
 def gradient(function, input):
     """Частная произвоздная по каждому из параметров функции f(т.е. градиент)"""
     ret = np.empty(len(input))
@@ -22,9 +21,6 @@ def gradient(function, input):
 def next_point(x, y, gx, gy, step) -> tuple:
     return x - step * gx, y - step * gy
 
-
-def function(x,y):
-    return x**2.0+y**2.0#np.sin(x)*np.cos(y);
 def gradient_descent(function, x0, y0, tk, M):
     yield x0, y0, 0, function(x0, y0)
 

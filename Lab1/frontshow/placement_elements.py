@@ -7,3 +7,4 @@ class createLabel:
     def placement_label(root,text,row,column,padx,rowspan,columnspan,pady):
         label = ttk.Label(root, text=text)
         label.grid(row=row, column=column, padx=padx, rowspan=rowspan, columnspan=columnspan, pady=pady)
+        return label

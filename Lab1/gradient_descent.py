@@ -40,10 +40,12 @@ def gradient_descent(function, x0, y0, tk, M):
         x1, y1 = next_point(x0, y0, gx, gy, tk)  # 7
         f1 = function(x1, y1)
         f0 = function(x0, y0)
+
         while not f1 < f0:  # 8 условие
             tk = tk / 2
             x1, y1 = next_point(x0, y0, gx, gy, tk)
             f1 = function(x1, y1)
+            #print(x0,y0)
             f0 = function(x0, y0)
 
         if np.sqrt((x1 - x0) ** 2 + (y1 - y0) ** 2) < e2 and abs(f1 - f0) < e2:  # 9

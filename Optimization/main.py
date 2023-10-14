@@ -19,7 +19,7 @@ def fillMatrix(resultFunction):
         temp.append([x, y, f])
     return temp
 
-def getMatrixFromGenertics(result):
+def getMatrixFromGenetics(result):
     temp = []
     for x,y in result:
         z = current_function(x,y)
@@ -85,7 +85,7 @@ def call_geneticsAlgorithm(tf_populationSize,tf_numGeneratics,lab_optimalFunc,la
             lab_optimalValuePoints.configure(text="Оптимальное значение функции: " + str(round(best_fitness,3)))
             lab_optimalFunc.configure(text="Оптимальное значение переменных: " + str(round(best_solution[0])) + " : " + str(round(best_solution[1])))
 
-            points = getMatrixFromGenertics(arr_points)
+            points = getMatrixFromGenetics(arr_points)
             ani = FuncAnimation(fig_3d, animate, frames=len(points), fargs=(points, textReachGeneraticPoints,'v',), interval=SPEED, repeat=False)
             canvas_3d.draw()
         else:

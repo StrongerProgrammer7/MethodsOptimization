@@ -1,10 +1,5 @@
 import numpy as np
 
-def f(xgrid, ygrid):
-    return 2 * np.power(xgrid, 2) + 3 * np.power(ygrid, 2) + (4 * xgrid * ygrid) - (6 * xgrid) - (3 * ygrid)
-    # return xgrid ** 2 + ygrid ** 2
-
-
 def get_index(func, elem):
     for i in range(len(func)):
         if func[i] == elem:

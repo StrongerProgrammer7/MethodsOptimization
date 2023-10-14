@@ -16,3 +16,5 @@ canvas_3d_widget = None
 
 textReachGradientPoint = None
 textReachQuadPoint = None
+textReachGeneraticPoints = None
+

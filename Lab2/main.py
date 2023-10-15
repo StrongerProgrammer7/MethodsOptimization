@@ -15,15 +15,28 @@ from setFunction import *
 
 def fillMatrix(resultFunction):
     temp = []
+    temp_x, temp_y,temp_z = None,None,None
     for x, y, countIter, f in resultFunction:
+        if(temp_x != None and temp_y != None and temp_z != None):
+            if temp_x == x and temp_y == y and temp_z == f:
+                continue
         temp.append([x, y, f])
+        temp_x = x
+        temp_y = y
+        temp_z = f
     return temp
 
 def getMatrixFromGenertics(result):
     temp = []
+    temp_x,temp_y = 0,0
     for x,y in result:
+        if(temp_x !=0 and temp_y !=0):
+            if temp_x == x and temp_y == y:
+                continue
         z = current_function(x,y)
         temp.append([x,y,z])
+        temp_x = x
+        temp_y = y
     return temp
 
 
@@ -98,7 +111,6 @@ def call_geneticsAlgorithm(tf_populationSize,tf_numGeneratics,lab_optimalFunc,la
 
 def save_plot():
     try:
-        # Save the 3D plot to a file
         file_path = filedialog.asksaveasfilename(defaultextension=".png", filetypes=[("PNG files", "*.png")])
         if file_path:
             fig_3d.savefig(file_path)

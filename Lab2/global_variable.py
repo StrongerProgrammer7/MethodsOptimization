@@ -10,6 +10,7 @@ x_data = []
 y_data = []
 
 scatter_points = []
+extraScatter = []
 
 canvas_3d = None
 canvas_3d_widget = None
@@ -17,4 +18,5 @@ canvas_3d_widget = None
 textReachGradientPoint = None
 textReachQuadPoint = None
 textReachGeneraticPoints = None
+textReachSwarm = None
 

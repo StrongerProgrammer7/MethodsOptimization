@@ -1,4 +1,4 @@
-
+from backend.Swarm_X2 import Swarm
 from outer_imports.imports_tkinter import *
 from outer_imports.matplotlib import *
 
@@ -46,9 +46,14 @@ def animate(frame, arr, textReach=None, marker=None):
             color = Color.RED.value
             size_point = 100
         if (textReach != None):
-            str_temp = "# " + str(frame) + " X=" + str(round(arr[frame][0], 4)) + " Y=" + str(round(arr[frame][1],4 )) + " Z=" + str(round(arr[frame][2], 4)) + "\n"
+            point_z = None
+            if(len(arr[frame]) == 2):
+                point_z = current_function(arr[frame][0],arr[frame][1])
+            else:
+                point_z = arr[frame][2]
+            str_temp = "# " + str(frame) + " X=" + str(round(arr[frame][0], 4)) + " Y=" + str(round(arr[frame][1],4 )) + " Z=" + str(round(point_z, 4)) + "\n"
             textReach.insert(1.0, str_temp)
-            scatter_points.append(ax_3d.scatter(arr[frame][0], arr[frame][1], arr[frame][2], c=color, marker=marker, s=size_point))
+            scatter_points.append(ax_3d.scatter(arr[frame][0], arr[frame][1], point_z, c=color, marker=marker, s=size_point))
 
 
 def callGradient_DrawPoint(textFieldCountIter) -> None:
@@ -81,7 +86,7 @@ def call_simplex_method() -> None:
 
 def isNotEmptyFields(arrFields):
     for i in arrFields:
-        if int(i.get()) < 10:
+        if i.get() == "" and int(i.get()) == 0:
             return False
     return True
 
@@ -103,6 +108,27 @@ def call_geneticsAlgorithm(tf_populationSize,tf_numGeneratics,lab_optimalFunc,la
     except ValueError:
         messagebox.showerror("Error", "Invalid fillMatrix. Please check fill matrix and genetric algorithm")
 
+def call_Swarm(arr_textField) -> None:
+    try:
+        if(len(x_data) > 0 and len(y_data) > 0 and isNotEmptyFields(arr_textField)):
+            sizeSwarm = int(arr_textField[0].get())
+            curLocalVelociryRatio = float(arr_textField[1].get())
+            locLocalVelociryRatio = float(arr_textField[2].get())
+            globLocalVelociryRatio = float(arr_textField[3].get())
+            numOfLife = int(arr_textField[4].get())
+
+            a = Swarm(sizeSwarm, curLocalVelociryRatio, locLocalVelociryRatio, globLocalVelociryRatio, numOfLife, current_function, START, END)
+            points = a.startSwarm()
+            print("РЕЗУЛЬТАТ:", a.globalBestScore, "В ТОЧКЕ:", a.globalBestPos)
+            print(points)
+            ani = FuncAnimation(fig_3d, animate, frames=len(points), fargs=(points, textReachSwarm,'v',), interval=SPEED, repeat=False)
+            canvas_3d.draw()
+        else:
+            print(f"size x = {len(x_data)}")
+            print(f"size y = {len(y_data)}")
+            messagebox.showerror("Error", "Invalid data. Fill defualt data and inputs: size,lifes,velocity")
+    except ValueError:
+        messagebox.showerror("Error", "Invalid fillMatrix. Please check fill matrix and swarm algorithm")
 
 def save_plot():
     try:
@@ -147,6 +173,7 @@ def clearPoints():
     textReachGradientPoint.delete(1.0,tk.END)
     textReachQuadPoint.delete(1.0, tk.END)
     textReachGeneraticPoints.delete(1.0,tk.END)
+    textReachSwarm.delete(1.0,tk.END)
     canvas_3d.draw()
     scatter_points.clear()
 
@@ -215,7 +242,57 @@ def createTab_Genetic(tab):
     textReachGeneraticPoints = ScrolledText(tab, height=10, width=30)
     textReachGeneraticPoints.grid(row=7, column=1, columnspan=3, padx=5, pady=5, sticky="nsew")
 
+def createTab_Swarm(tab):
+    tf_swarm = []
 
+    createLabel.placement_label(tab, "Size swarm", 0, 0, 5, 1, 1, 5)
+    tF = ttk.Entry(tab)
+    tF.insert(0, "50")
+    tF.grid(row=0, column=1, padx=5, pady=5, rowspan=1, columnspan=2, sticky="nsew")
+    tf_swarm.append(tF)
+
+    createLabel.placement_label(tab, "Current velocity ratio", 1, 0, 5, 1, 1, 5)
+    tF = ttk.Entry(tab)
+    tF.insert(0, "0.1")
+    tF.grid(row=1, column=1, padx=5, pady=5, rowspan=1, columnspan=2, sticky="nsew")
+    tf_swarm.append(tF)
+
+    createLabel.placement_label(tab, "Local velocity ratio", 2, 0, 5, 1, 1, 5)
+    tF = ttk.Entry(tab)
+    tF.insert(0, "1")
+    tF.grid(row=2, column=1, padx=5, pady=5, rowspan=1, columnspan=2, sticky="nsew")
+    tf_swarm.append(tF)
+
+    createLabel.placement_label(tab, "Global velocity ratio", 3, 0, 5, 1, 1, 5)
+    tF = ttk.Entry(tab)
+    tF.insert(0, "5")
+    tF.grid(row=3, column=1, padx=5, pady=5, rowspan=1, columnspan=2, sticky="nsew")
+    tf_swarm.append(tF)
+
+    createLabel.placement_label(tab, "Numbers of life", 4, 0, 5, 1, 1, 5)
+    tF = ttk.Entry(tab)
+    tF.insert(0, "100")
+    tF.grid(row=4, column=1, padx=5, pady=5, rowspan=1, columnspan=2, sticky="nsew")
+    tf_swarm.append(tF)
+
+    #createLabel.placement_label(tab, "Start", 5, 0, 5, 1, 1, 5)
+   # createLabel.placement_label(tab, "End", 5, 1, 5, 1, 1, 5)
+   # tF = ttk.Entry(tab)
+   # tF.insert(0, "-5")
+   # tF.grid(row=6, column=0, padx=5, pady=5, rowspan=1, columnspan=2, sticky="nsew")
+   # tf_swarm.append(tF)
+
+   # tF = ttk.Entry(tab)
+   # tF.insert(0, "5")
+   # tF.grid(row=6, column=1, padx=5, pady=5, rowspan=1, columnspan=2, sticky="nsew")
+  #  tf_swarm.append(tF)
+
+    btn = ttk.Button(tab, text='Call swarm',command=lambda: call_Swarm(tf_swarm))
+    btn.grid(row=5, column=0, columnspan=3, padx=5, pady=5, sticky="nsew")
+
+    global textReachSwarm
+    textReachSwarm = ScrolledText(tab, height=10, width=30)
+    textReachSwarm.grid(row=6, column=0, columnspan=3, padx=5, pady=5, sticky="nsew")
 
 
 if __name__ == '__main__':
@@ -231,20 +308,24 @@ if __name__ == '__main__':
     frame1 = ttk.Frame(notebook)
     frame2 = ttk.Frame(notebook)
     frame3 = ttk.Frame(notebook)
+    frame4 = ttk.Frame(notebook)
 
     notebook.add(frame1, text="Gradient")
     notebook.add(frame2,text="Simplex method")
     notebook.add(frame3, text="Genetic")
+    notebook.add(frame4, text="Swarm")
 
     createTab_gradient(frame1)
     createTab_simpleMethod(frame2)
     createTab_Genetic(frame3)
+    createTab_Swarm(frame4)
+
     createLabel.placement_label(root, "Choose Step", 1, 1, 5, 1, 3, 5)
     textFieldStep = ttk.Entry(root)
     textFieldStep.insert(0, str(STEP))
 
     lab_func = createLabel.placement_label(root, "Choose function", 3, 1, 5, 1, 3, 5)
-    comboBoxFunc = ttk.Combobox(root, values=["function_1", "function_2", "Bila", "Buta", "Bukina", "Eggholder","quadratic","rosenbrock"],
+    comboBoxFunc = ttk.Combobox(root, values=["function_1", "function_2", "Bila", "Buta", "Bukina", "Eggholder","quadratic","rosenbrock","ROMA"],
                                 state="readonly")
     comboBoxFunc.bind("<<ComboboxSelected>>", lambda event, cb=comboBoxFunc,lab = lab_func,field=textFieldStep: selectFunc(event, cb,lab,field))
 

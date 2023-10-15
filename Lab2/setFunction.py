@@ -33,6 +33,9 @@ def quadratic(x, y):
 def rosenbrock(x, y):
     return (1 - x) ** 2 + 100 * (y - x ** 2) ** 2
 
+def func_ROMA(x,y):
+    return 3*x*y-x**2*y-x*y**2
+
 chooseFunc = {
     "function_1": {'f': function_1, 'from': -5, 'to': 5},
     "function_2": {'f': function_2, 'from': -5, 'to': 5},
@@ -41,5 +44,6 @@ chooseFunc = {
     "Bukina": {'f': function_Bukina, 'x': {1: -15, 2: -5}, 'y': {1: -3, 2: 3}},
     "Eggholder": {'f': function_Eggholder, 'from': -128, 'to': 128},
     "quadratic": {'f': quadratic, 'from': -5, 'to': 5},
-    "rosenbrock":{'f':rosenbrock,'from':-10,'to':10}
+    "rosenbrock":{'f':rosenbrock,'from':-10,'to':10},
+    "ROMA":{'f':func_ROMA,'from':-10,'to':10}
 }

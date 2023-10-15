@@ -1,3 +1,5 @@
+import numpy as np
+
 from backend.Swarm_X2 import Swarm
 from outer_imports.imports_tkinter import *
 from outer_imports.matplotlib import *
@@ -55,6 +57,15 @@ def animate(frame, arr, textReach=None, marker=None):
             textReach.insert(1.0, str_temp)
             scatter_points.append(ax_3d.scatter(arr[frame][0], arr[frame][1], point_z, c=color, marker=marker, s=size_point))
 
+            if(len(scatter_points)>15 and  len(arr)-2 > frame):
+                random_countForDel = random.randint(2, 5)
+                for i in range(0,random_countForDel):
+                    randomPos = random.randint(0,len(scatter_points)-2)
+                    scatter_points[randomPos].remove()
+                    scatter_points.remove(scatter_points[randomPos])
+
+
+
 
 def callGradient_DrawPoint(textFieldCountIter) -> None:
     try:
@@ -73,14 +84,14 @@ def callGradient_DrawPoint(textFieldCountIter) -> None:
 
 def call_simplex_method() -> None:
     try:
-        if(len(x_data) > 0 and len(y_data) > 0):
+        if(len(x_data) > 0 and len(y_data) > 0 and current_function.__name__ == "quadratic"):
             temp = get_points(max(x_data),max(y_data),current_function)
             ani = FuncAnimation(fig_3d, animate, frames=len(temp), fargs=(temp, textReachQuadPoint,'x',), interval=SPEED, repeat=False)
             canvas_3d.draw()
         else:
             print(len(x_data))
             print(len(y_data))
-            messagebox.showerror("Error", "Invalid data. Fill defualt data")
+            messagebox.showerror("Error", "Invalid data. Fill defualt data or choose other function. Simplex work only quadratic")
     except ValueError:
         messagebox.showerror("Error", "Invalid fillMatrix. Please check fill matrix and simplex_method")
 
@@ -90,16 +101,32 @@ def isNotEmptyFields(arrFields):
             return False
     return True
 
+def deleteDuplicateValue(matrix):
+    newMatrix = []
+    tx,ty = None , None
+    lastPoint = matrix[len(matrix)-1]
+    for arr in matrix:
+        if tx != None and ty != None and tx == round(arr[0],5) and ty == round(arr[1],5) and arr[0] != lastPoint[0] and arr[1] != lastPoint[1]:
+            continue
+        newMatrix.append(arr)
+        tx = round(arr[0],5)
+        ty = round(arr[1],5)
+    return newMatrix
+
+
 def call_geneticsAlgorithm(tf_populationSize,tf_numGeneratics,lab_optimalFunc,lab_optimalValuePoints) -> None:
     try:
         if(len(x_data) > 0 and len(y_data) > 0 and isNotEmptyFields([tf_populationSize,tf_numGeneratics])):
             population_size,num_generations = int(tf_populationSize.get()),int(tf_numGeneratics.get())
             best_solution, best_fitness,arr_points = genetic_algorithm(population_size, num_generations,current_function)
+
             lab_optimalValuePoints.configure(text="Оптимальное значение функции: " + str(round(best_fitness,3)))
             lab_optimalFunc.configure(text="Оптимальное значение переменных: " + str(round(best_solution[0])) + " : " + str(round(best_solution[1])))
 
+            ax_3d.scatter(best_solution[0], best_solution[1], best_fitness, c=Color.YELLOW.value, marker="o", s=250)
+
             points = getMatrixFromGenetics(arr_points)
-            ani = FuncAnimation(fig_3d, animate, frames=len(points), fargs=(points, textReachGeneraticPoints,'v',), interval=SPEED, repeat=False)
+            _ = FuncAnimation(fig_3d, animate, frames=len(points), fargs=(points, textReachGeneraticPoints,'v',), interval=SPEED, repeat=False)
             canvas_3d.draw()
         else:
             print(len(x_data))
@@ -119,9 +146,12 @@ def call_Swarm(arr_textField) -> None:
 
             a = Swarm(sizeSwarm, curLocalVelociryRatio, locLocalVelociryRatio, globLocalVelociryRatio, numOfLife, current_function, START, END)
             points = a.startSwarm()
-            print("РЕЗУЛЬТАТ:", a.globalBestScore, "В ТОЧКЕ:", a.globalBestPos)
-            print(points)
-            ani = FuncAnimation(fig_3d, animate, frames=len(points), fargs=(points, textReachSwarm,'v',), interval=SPEED, repeat=False)
+            #print("РЕЗУЛЬТАТ:", a.globalBestScore, "В ТОЧКЕ:", a.globalBestPos)
+            ax_3d.scatter(a.globalBestPos[0], a.globalBestPos[1], a.globalBestScore, c=Color.BLUE.value, marker="o", s=250)
+
+            # print(points)
+            points = deleteDuplicateValue(points)
+            _ = FuncAnimation(fig_3d, animate, frames=len(points), fargs=(points, textReachSwarm,'x',), interval=SPEED, repeat=False)
             canvas_3d.draw()
         else:
             print(f"size x = {len(x_data)}")

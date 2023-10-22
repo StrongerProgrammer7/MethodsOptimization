@@ -1,3 +1,5 @@
+import math
+
 import numpy as np
 
 
@@ -30,11 +32,21 @@ def function_Eggholder(x, y):
 def quadratic(x, y):
     return 2 * np.power(x, 2) + 3 * np.power(y, 2) + (4 * x * y) - (6 * x) - (3 * y)
 
-def rosenbrock(x, y):
-    return (1 - x) ** 2 + 100 * (y - x ** 2) ** 2
+def rosenbrock(x, y,b=100):
+    return ((x-1) ** 2) + b * ((y - (x ** 2)) ** 2)
+
+def Himmelblau(x,y):
+    return (x*x+y-11)**2 + (x+y*y-7)**2
 
 def func_ROMA(x,y):
     return 3*x*y-x**2*y-x*y**2
+
+# def Rastrigin(x,y,A=1.0):
+#     return (x**2 - 10 * np.cos(2 * np.pi * x)) + (y**2 - 10 * np.cos(2 * np.pi * y)) + 20
+
+def Rastrigin(*X, **kwargs):
+    A = kwargs.get('A', 10)
+    return A + sum([(x**2 - A * np.cos(2 * math.pi * x)) for x in X])
 
 chooseFunc = {
     "Квадратная": {'f': quadraticFunc, 'from': -5, 'to': 5},
@@ -44,6 +56,8 @@ chooseFunc = {
     "Букина": {'f': function_Bukina, 'x': {1: -15, 2: -5}, 'y': {1: -3, 2: 3}},
     "Эгхолдера": {'f': function_Eggholder, 'from': -128, 'to': 128},
     "Квадратичная": {'f': quadratic, 'from': -5, 'to': 5},
-    "Розенброк":{'f':rosenbrock,'from':-10,'to':10},
-    "Рома":{'f':func_ROMA,'from':-10,'to':10}
+    "Розенброк":{'f':rosenbrock,'from':-3,'to':3},
+    "Рома":{'f':func_ROMA,'from':-10,'to':10},
+    "Растригина":{'f':Rastrigin,'from':-5.12,'to':5.12},
+    "Химмельблау":{'f':Rastrigin,'from':-5,'to':5}
 }

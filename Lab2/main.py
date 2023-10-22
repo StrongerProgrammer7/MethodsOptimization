@@ -1,6 +1,7 @@
 import numpy as np
 
 from backend.Swarm_X2 import Swarm
+from backend.algorithm_of_bees import algorithm_of_bees
 from outer_imports.imports_tkinter import *
 from outer_imports.matplotlib import *
 
@@ -40,13 +41,15 @@ def getMatrixFromGenetics(result):
 def isNotZeroPoints(arr,frame):
     return abs(round(arr[frame][0])) != 0 and abs(round(arr[frame][1])) != 0 and abs(round(arr[frame][2])) !=0
 
-def animate(frame, arr, textReach=None, marker=None):
+def animate(frame, arr,best_result=None, textReach=None, marker=None):
     if len(arr) > frame:
         size_point = SIZE_POINT
         color = Color.GREEN.value
         if (len(arr) - 1 == frame):
             color = Color.RED.value
             size_point = 100
+            if(best_result!=None):
+                bestPointSet.append(ax_3d.scatter(best_result[0], best_result[1], best_result[2], c=best_result[3], marker=best_result[4], s=best_result[5]))
         if (textReach != None):
             point_z = None
             if(len(arr[frame]) == 2):
@@ -67,36 +70,14 @@ def animate(frame, arr, textReach=None, marker=None):
                     scatter_points[randomPos].remove()
                     scatter_points.remove(scatter_points[randomPos])
 
-
-
-
-def callGradient_DrawPoint(textFieldCountIter) -> None:
-    try:
-        if(len(x_data) > 0 and len(y_data) > 0 and int(textFieldCountIter.get()) > 10):
-            temp = fillMatrix(list(gradient_descent(current_function, random.choice(x_data), random.choice(y_data), 0.1, int(textFieldCountIter.get()))))
-            ani = FuncAnimation(fig_3d, animate, frames=len(temp), fargs=(temp, textReachGradientPoint,'o',), interval=SPEED,
-                                repeat=False)
-            canvas_3d.draw()
-        else:
-            print(len(x_data))
-            print(len(y_data))
-            print(int(textFieldCountIter.get()))
-            messagebox.showerror("Error", "Invalid data. Fill defualt data and count iter.")
-    except ValueError:
-        messagebox.showerror("Error", "Invalid fillMatrix. Please check fill matrix and gradient_descent")
-
-def call_simplex_method() -> None:
-    try:
-        if(len(x_data) > 0 and len(y_data) > 0 and current_function.__name__ == "quadratic"):
-            temp = get_points(max(x_data),max(y_data),current_function)
-            ani = FuncAnimation(fig_3d, animate, frames=len(temp), fargs=(temp, textReachQuadPoint,'x',), interval=SPEED, repeat=False)
-            canvas_3d.draw()
-        else:
-            print(len(x_data))
-            print(len(y_data))
-            messagebox.showerror("Error", "Invalid data. Fill defualt data or choose other function. Simplex work only quadratic")
-    except ValueError:
-        messagebox.showerror("Error", "Invalid fillMatrix. Please check fill matrix and simplex_method")
+def changeMatrixBeesPoint(points):
+    new_matrix = []
+    for i in range(len(points)):
+        for j in range(len(points[i])):
+            x_y = points[i][j][0]
+            z = points[i][j][1]
+            new_matrix.append([x_y[0],x_y[1],z])
+    return new_matrix
 
 def isNotEmptyFields(arrFields):
     for i in arrFields:
@@ -117,6 +98,33 @@ def deleteDuplicateValue(matrix):
         ty = round(arr[1],5)
     return newMatrix
 
+def callGradient_DrawPoint(textFieldCountIter) -> None:
+    try:
+        if(len(x_data) > 0 and len(y_data) > 0 and int(textFieldCountIter.get()) > 10):
+            temp = fillMatrix(list(gradient_descent(current_function, random.choice(x_data), random.choice(y_data), 0.1, int(textFieldCountIter.get()))))
+            ani = FuncAnimation(fig_3d, animate, frames=len(temp), fargs=(temp, None,textReachGradientPoint,'o',), interval=SPEED,
+                                repeat=False)
+            canvas_3d.draw()
+        else:
+            print(len(x_data))
+            print(len(y_data))
+            print(int(textFieldCountIter.get()))
+            messagebox.showerror("Error", "Invalid data. Fill defualt data and count iter.")
+    except ValueError:
+        messagebox.showerror("Error", "Invalid fillMatrix. Please check fill matrix and gradient_descent")
+
+def call_simplex_method() -> None:
+    try:
+        if(len(x_data) > 0 and len(y_data) > 0 and current_function.__name__ == "quadratic"):
+            temp = get_points(max(x_data),max(y_data),current_function)
+            ani = FuncAnimation(fig_3d, animate, frames=len(temp), fargs=(temp, None,textReachQuadPoint,'x',), interval=SPEED, repeat=False)
+            canvas_3d.draw()
+        else:
+            print(len(x_data))
+            print(len(y_data))
+            messagebox.showerror("Error", "Invalid data. Fill defualt data or choose other function. Simplex work only quadratic")
+    except ValueError:
+        messagebox.showerror("Error", "Invalid fillMatrix. Please check fill matrix and simplex_method")
 
 def call_geneticsAlgorithm(tf_populationSize,tf_numGeneratics,lab_optimalFunc,lab_optimalValuePoints) -> None:
     try:
@@ -126,11 +134,11 @@ def call_geneticsAlgorithm(tf_populationSize,tf_numGeneratics,lab_optimalFunc,la
 
             lab_optimalValuePoints.configure(text="Оптимальное значение функции: " + str(round(best_fitness,3)))
             lab_optimalFunc.configure(text="Оптимальное значение переменных: " + str(round(best_solution[0])) + " : " + str(round(best_solution[1])))
-            bestPointSet.append(ax_3d.scatter(best_solution[0], best_solution[1], best_fitness, c=Color.YELLOW.value, marker="o", s=250))
-
+           # bestPointSet.append(ax_3d.scatter(best_solution[0], best_solution[1], best_fitness, c=Color.YELLOW.value, marker="o", s=250))
+            bestResult = [best_solution[0], best_solution[1], best_fitness,Color.YELLOW.value,"o",250]
 
             points = getMatrixFromGenetics(arr_points)
-            _ = FuncAnimation(fig_3d, animate, frames=len(points), fargs=(points, textReachGeneraticPoints,'v',), interval=SPEED, repeat=False)
+            _ = FuncAnimation(fig_3d, animate, frames=len(points), fargs=(points,bestResult, textReachGeneraticPoints,'v',), interval=SPEED, repeat=False)
             canvas_3d.draw()
         else:
             print(len(x_data))
@@ -153,10 +161,10 @@ def call_Swarm(arr_textField) -> None:
             points = a.startSwarm()
             #print("РЕЗУЛЬТАТ:", a.globalBestScore, "В ТОЧКЕ:", a.globalBestPos)
 
-            bestPointSet.append(ax_3d.scatter(a.globalBestPos[0], a.globalBestPos[1], a.globalBestScore, c=Color.BLUE.value, marker="o", s=250))
-            # print(points)
+           # bestPointSet.append(ax_3d.scatter(a.globalBestPos[0], a.globalBestPos[1], a.globalBestScore, c=Color.BLUE.value, marker="o", s=250))
+            bestResult = [a.globalBestPos[0],a.globalBestPos[1],a.globalBestScore,Color.BLUE.value, "o",250]
             points = deleteDuplicateValue(points)
-            _ = FuncAnimation(fig_3d, animate, frames=len(points), fargs=(points, textReachSwarm,'x',), interval=SPEED, repeat=False)
+            _ = FuncAnimation(fig_3d, animate, frames=len(points), fargs=(points,bestResult, textReachSwarm,'x',), interval=SPEED, repeat=False)
             canvas_3d.draw()
         else:
             print(f"size x = {len(x_data)}")
@@ -164,6 +172,33 @@ def call_Swarm(arr_textField) -> None:
             messagebox.showerror("Error", "Invalid data. Fill defualt data and inputs: size,lifes,velocity")
     except ValueError:
         messagebox.showerror("Error", "Invalid fillMatrix. Check swarm algorithm")
+
+def call_Bees(arr_textField) -> None:
+    try:
+        if(len(x_data) > 0 and len(y_data) > 0 and isNotEmptyFields(arr_textField)):
+            min_x = int(arr_textField[0].get())
+            max_x = int(arr_textField[1].get())
+            min_y = int(arr_textField[2].get())
+            max_y = int(arr_textField[3].get())
+            numBees = int(arr_textField[4].get())
+            time = int(arr_textField[5].get())
+            rezusl, points = algorithm_of_bees(min_x, max_x, min_y, max_y, numBees, current_function, time)
+            bestResult = [rezusl[0][0], rezusl[0][1], rezusl[1], Color.CYAN.value, "o", 250]
+            points = changeMatrixBeesPoint(points)
+
+            _ = FuncAnimation(fig_3d, animate, frames=len(points), fargs=(points, bestResult, textReachBees, 'o',),
+                              interval=SPEED, repeat=False)
+
+            canvas_3d.draw()
+
+            #messagebox.showerror("Error",      "Invalid data. min_y | min_x | max_x | max_y out of bounds BOUND: " + str(START) + ": " + str(END))
+        else:
+            print(f"size x = {len(x_data)}")
+            print(f"size y = {len(y_data)}")
+            messagebox.showerror("Error", "Invalid data. Fill defualt data and inputs: min_x,max_y,min_y,max_y,time,count bees")
+    except ValueError:
+        messagebox.showerror("Error", "Invalid fillMatrix. Check bees algorithm")
+
 
 def save_plot():
     try:
@@ -186,15 +221,19 @@ def buildBaseFunction():
     ax_3d.set_xlabel("X-axis")
     ax_3d.set_ylabel("Y-axis")
     ax_3d.set_zlabel("Z-axis")
-
     global x_data
     global y_data
     if type(START) == dict:
         x_data = np.arange(START[1], START[2], STEP)
         y_data = np.arange(END[1], END[2], STEP)
     else:
-        x_data = np.arange(START, END, STEP)
-        y_data = np.arange(START, END, STEP)
+        if(current_function.__name__ == "rosenbrock"):
+            x_data = np.arange(-2, 2, STEP)
+            y_data = np.arange(-1, 3, STEP)
+        else:
+            x_data = np.arange(START, END, STEP)
+            y_data = np.arange(START, END, STEP)
+
 
     X, Y = np.meshgrid(x_data, y_data)
     Z = current_function(X, Y)
@@ -337,6 +376,52 @@ def createTab_Swarm(tab):
     textReachSwarm = ScrolledText(tab, height=10, width=30)
     textReachSwarm.grid(row=6, column=0, columnspan=3, padx=5, pady=5, sticky="nsew")
 
+def createTab_Bees(tab):
+    tf_bees = []
+
+    createLabel.placement_label(tab, "Мин х", 0, 0, 5, 1, 1, 5)
+    tF = ttk.Entry(tab)
+    tF.insert(0, "-10")
+    tF.grid(row=0, column=1, padx=5, pady=5, rowspan=1, columnspan=2, sticky="nsew")
+    tf_bees.append(tF)
+
+    createLabel.placement_label(tab, "Макс х", 1, 0, 5, 1, 1, 5)
+    tF = ttk.Entry(tab)
+    tF.insert(0, "10")
+    tF.grid(row=1, column=1, padx=5, pady=5, rowspan=1, columnspan=2, sticky="nsew")
+    tf_bees.append(tF)
+
+    createLabel.placement_label(tab, "Мин у", 2, 0, 5, 1, 1, 5)
+    tF = ttk.Entry(tab)
+    tF.insert(0, "-10")
+    tF.grid(row=2, column=1, padx=5, pady=5, rowspan=1, columnspan=2, sticky="nsew")
+    tf_bees.append(tF)
+
+    createLabel.placement_label(tab, "Макс у", 3, 0, 5, 1, 1, 5)
+    tF = ttk.Entry(tab)
+    tF.insert(0, "10")
+    tF.grid(row=3, column=1, padx=5, pady=5, rowspan=1, columnspan=2, sticky="nsew")
+    tf_bees.append(tF)
+
+    createLabel.placement_label(tab, "Количество пчелок", 4, 0, 5, 1, 1, 5)
+    tF = ttk.Entry(tab)
+    tF.insert(0, "200")
+    tF.grid(row=4, column=1, padx=5, pady=5, rowspan=1, columnspan=2, sticky="nsew")
+    tf_bees.append(tF)
+
+    createLabel.placement_label(tab, "Время(мс)", 5, 0, 5, 1, 1, 5)
+    tF = ttk.Entry(tab)
+    tF.insert(0, "100")
+    tF.grid(row=5, column=1, padx=5, pady=5, rowspan=1, columnspan=2, sticky="nsew")
+    tf_bees.append(tF)
+
+
+    btn = ttk.Button(tab, text='Вызвать пчелок',command=lambda: call_Bees(tf_bees))
+    btn.grid(row=6, column=0, columnspan=3, padx=5, pady=5, sticky="nsew")
+
+    global textReachBees
+    textReachBees = ScrolledText(tab, height=10, width=30)
+    textReachBees.grid(row=7, column=0, columnspan=3, padx=5, pady=5, sticky="nsew")
 
 if __name__ == '__main__':
     global STEP
@@ -352,16 +437,19 @@ if __name__ == '__main__':
     frame2 = ttk.Frame(notebook)
     frame3 = ttk.Frame(notebook)
     frame4 = ttk.Frame(notebook)
+    frame5 = ttk.Frame(notebook)
 
     notebook.add(frame1, text="Градиент")
     notebook.add(frame2,text="Квадратичная ф-я")
     notebook.add(frame3, text="Генетический")
     notebook.add(frame4, text="Рой")
+    notebook.add(frame5, text="Пчелки")
 
     createTab_gradient(frame1)
     createTab_simpleMethod(frame2)
     createTab_Genetic(frame3)
     createTab_Swarm(frame4)
+    createTab_Bees(frame5)
 
     createLabel.placement_label(root, "Шаг(епсилон)", 1, 1, 5, 1, 3, 5)
     textFieldStep = ttk.Entry(root)
@@ -377,7 +465,9 @@ if __name__ == '__main__':
         "Эгхолдера",
         "Квадратичная",
         "Розенброк",
-        "Рома"],
+        "Рома",
+        "Растригина",
+        "Химмельблау"],
                                 state="readonly")
     comboBoxFunc.bind("<<ComboboxSelected>>", lambda event, cb=comboBoxFunc,lab = lab_func,field=textFieldStep: selectFunc(event, cb,lab,field))
 

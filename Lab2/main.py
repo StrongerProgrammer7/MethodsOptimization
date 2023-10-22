@@ -55,7 +55,10 @@ def animate(frame, arr, textReach=None, marker=None):
                 point_z = arr[frame][2]
             str_temp = "# " + str(frame) + " X=" + str(round(arr[frame][0], 4)) + " Y=" + str(round(arr[frame][1],4 )) + " Z=" + str(round(point_z, 4)) + "\n"
             textReach.insert(1.0, str_temp)
-            scatter_points.append(ax_3d.scatter(arr[frame][0], arr[frame][1], point_z, c=color, marker=marker, s=size_point))
+            if(len(arr) - 1 == frame):
+                extraScatter.append(ax_3d.scatter(arr[frame][0], arr[frame][1], point_z, c=color, marker=marker, s=size_point, zorder=4))
+            else:
+                scatter_points.append(ax_3d.scatter(arr[frame][0], arr[frame][1], point_z, c=color, marker=marker, s=size_point,zorder=2))
 
             if(len(scatter_points)>15 and  len(arr)-2 > frame):
                 random_countForDel = random.randint(2, 5)
@@ -98,6 +101,7 @@ def call_simplex_method() -> None:
 def isNotEmptyFields(arrFields):
     for i in arrFields:
         if i.get() == "" and int(i.get()) == 0:
+            print(int(i.get()))
             return False
     return True
 
@@ -122,8 +126,8 @@ def call_geneticsAlgorithm(tf_populationSize,tf_numGeneratics,lab_optimalFunc,la
 
             lab_optimalValuePoints.configure(text="Оптимальное значение функции: " + str(round(best_fitness,3)))
             lab_optimalFunc.configure(text="Оптимальное значение переменных: " + str(round(best_solution[0])) + " : " + str(round(best_solution[1])))
+            bestPointSet.append(ax_3d.scatter(best_solution[0], best_solution[1], best_fitness, c=Color.YELLOW.value, marker="o", s=250))
 
-            ax_3d.scatter(best_solution[0], best_solution[1], best_fitness, c=Color.YELLOW.value, marker="o", s=250)
 
             points = getMatrixFromGenetics(arr_points)
             _ = FuncAnimation(fig_3d, animate, frames=len(points), fargs=(points, textReachGeneraticPoints,'v',), interval=SPEED, repeat=False)
@@ -142,13 +146,14 @@ def call_Swarm(arr_textField) -> None:
             curLocalVelociryRatio = float(arr_textField[1].get())
             locLocalVelociryRatio = float(arr_textField[2].get())
             globLocalVelociryRatio = float(arr_textField[3].get())
+            print(globLocalVelociryRatio)
             numOfLife = int(arr_textField[4].get())
 
             a = Swarm(sizeSwarm, curLocalVelociryRatio, locLocalVelociryRatio, globLocalVelociryRatio, numOfLife, current_function, START, END)
             points = a.startSwarm()
             #print("РЕЗУЛЬТАТ:", a.globalBestScore, "В ТОЧКЕ:", a.globalBestPos)
-            ax_3d.scatter(a.globalBestPos[0], a.globalBestPos[1], a.globalBestScore, c=Color.BLUE.value, marker="o", s=250)
 
+            bestPointSet.append(ax_3d.scatter(a.globalBestPos[0], a.globalBestPos[1], a.globalBestScore, c=Color.BLUE.value, marker="o", s=250))
             # print(points)
             points = deleteDuplicateValue(points)
             _ = FuncAnimation(fig_3d, animate, frames=len(points), fargs=(points, textReachSwarm,'x',), interval=SPEED, repeat=False)
@@ -158,7 +163,7 @@ def call_Swarm(arr_textField) -> None:
             print(f"size y = {len(y_data)}")
             messagebox.showerror("Error", "Invalid data. Fill defualt data and inputs: size,lifes,velocity")
     except ValueError:
-        messagebox.showerror("Error", "Invalid fillMatrix. Please check fill matrix and swarm algorithm")
+        messagebox.showerror("Error", "Invalid fillMatrix. Check swarm algorithm")
 
 def save_plot():
     try:
@@ -166,7 +171,7 @@ def save_plot():
         file_path = filedialog.asksaveasfilename(defaultextension=".png", filetypes=[("PNG files", "*.png")])
         if file_path:
             fig_3d.savefig(file_path)
-            messagebox.showinfo("Success", "Plot saved successfully.")
+            messagebox.showinfo("Успех", "График сохранен.")
 
     except Exception as e:
         messagebox.showerror("Error", f"An error occurred while saving the plot: {str(e)}")
@@ -200,12 +205,20 @@ def buildBaseFunction():
 def clearPoints():
     for i in scatter_points:
         i.remove()
+    if(len(bestPointSet) > 0):
+        for i in bestPointSet:
+            i.remove()
+    if(len(extraScatter) > 0):
+        for i in extraScatter:
+            i.remove()
     textReachGradientPoint.delete(1.0,tk.END)
     textReachQuadPoint.delete(1.0, tk.END)
     textReachGeneraticPoints.delete(1.0,tk.END)
     textReachSwarm.delete(1.0,tk.END)
     canvas_3d.draw()
     scatter_points.clear()
+    bestPointSet.clear()
+    extraScatter.clear()
 
 def selectFunc(event,combo,lab,textField):
     try:
@@ -215,25 +228,25 @@ def selectFunc(event,combo,lab,textField):
             STEP = float(textField.get())
             if selection in chooseFunc:
                 current_function = chooseFunc[selection]['f']
-            if selection == "Bukina":
+            if selection == "Букина":
                 START = chooseFunc[selection]['x']
                 END = chooseFunc[selection]['y']
             else:
                 START = chooseFunc[selection]['from']
                 END = chooseFunc[selection]['to']
             buildBaseFunction()
-            lab.config(text="Function:" + selection)
+            lab.config(text="Функция:" + selection)
         else:
             messagebox.showerror("Error", "Invalid input. Please enter numeric values step.")
     except ValueError:
         messagebox.showerror("Error", "Invalid input. Please enter numeric values.")
 
 def createTab_gradient(tab):
-    createLabel.placement_label(tab, "Choose count iteration for gradient", 0, 1, 5, 1, 3, 5)
+    createLabel.placement_label(tab, "Количество итераций", 0, 1, 5, 1, 3, 5)
     textFieldCountIter = ttk.Entry(tab)
     textFieldCountIter.insert(0, "500")
 
-    findMinGradientDescent_button = ttk.Button(tab, text="Call gradient Descent",
+    findMinGradientDescent_button = ttk.Button(tab, text="Выполнить градиентный спуск",
                                                command=lambda: callGradient_DrawPoint(textFieldCountIter))
     textFieldCountIter.grid(row=1, column=1, padx=5, pady=5, rowspan=1, columnspan=3, sticky="nsew")
     findMinGradientDescent_button.grid(row=2, column=1, columnspan=3, padx=5, pady=5, sticky="nsew")
@@ -244,18 +257,18 @@ def createTab_gradient(tab):
 
 
 def createTab_simpleMethod(tab):
-    findQud_btn = ttk.Button(tab, text='Call simplex method', command=lambda: call_simplex_method())
+    findQud_btn = ttk.Button(tab, text='Вызов симплекс метода', command=lambda: call_simplex_method())
     findQud_btn.grid(row=0, column=1, columnspan=3, padx=5, pady=5, sticky="nsew")
     global textReachQuadPoint
     textReachQuadPoint = ScrolledText(tab, height=10, width=30)
     textReachQuadPoint.grid(row=1, column=1, columnspan=3, padx=5, pady=5, sticky="nsew")
 
 def createTab_Genetic(tab):
-    createLabel.placement_label(tab, "Population size", 0, 1, 5, 1, 3, 5)
+    createLabel.placement_label(tab, "Размер популяции", 0, 1, 5, 1, 3, 5)
     textField_populationSize = ttk.Entry(tab)
     textField_populationSize.insert(0, "50")
 
-    createLabel.placement_label(tab, "Count generatic", 2, 1, 5, 1, 3, 5)
+    createLabel.placement_label(tab, "Количество генераций", 2, 1, 5, 1, 3, 5)
     textField_numGeneratics= ttk.Entry(tab)
     textField_numGeneratics.insert(0, "100")
 
@@ -265,7 +278,7 @@ def createTab_Genetic(tab):
     lab_optimalFunc = createLabel.placement_label(tab, "Оптимальное значение функции: ", 4, 1, 5, 1, 3, 5)
     lab_optimalValuePoints = createLabel.placement_label(tab, "Оптимальное значение переменных", 5, 1, 5, 1, 3, 5)
 
-    generatics_btn = ttk.Button(tab, text='Call genetics', command=lambda: call_geneticsAlgorithm(textField_populationSize,textField_numGeneratics,lab_optimalFunc,lab_optimalValuePoints))
+    generatics_btn = ttk.Button(tab, text='Вызвать генетический', command=lambda: call_geneticsAlgorithm(textField_populationSize,textField_numGeneratics,lab_optimalFunc,lab_optimalValuePoints))
     generatics_btn.grid(row=6, column=1, columnspan=3, padx=5, pady=5, sticky="nsew")
 
     global textReachGeneraticPoints
@@ -275,31 +288,31 @@ def createTab_Genetic(tab):
 def createTab_Swarm(tab):
     tf_swarm = []
 
-    createLabel.placement_label(tab, "Size swarm", 0, 0, 5, 1, 1, 5)
+    createLabel.placement_label(tab, "Размер Роя", 0, 0, 5, 1, 1, 5)
     tF = ttk.Entry(tab)
     tF.insert(0, "50")
     tF.grid(row=0, column=1, padx=5, pady=5, rowspan=1, columnspan=2, sticky="nsew")
     tf_swarm.append(tF)
 
-    createLabel.placement_label(tab, "Current velocity ratio", 1, 0, 5, 1, 1, 5)
+    createLabel.placement_label(tab, "Общий масштабирующий\n коэффициент для скорости", 1, 0, 5, 1, 1, 5)
     tF = ttk.Entry(tab)
     tF.insert(0, "0.1")
     tF.grid(row=1, column=1, padx=5, pady=5, rowspan=1, columnspan=2, sticky="nsew")
     tf_swarm.append(tF)
 
-    createLabel.placement_label(tab, "Local velocity ratio", 2, 0, 5, 1, 1, 5)
+    createLabel.placement_label(tab, "Коэффициент, задающий влияние лучшей точки,\n найденной каждой частицей,\n на будущую скорость", 2, 0, 5, 1, 1, 5)
     tF = ttk.Entry(tab)
     tF.insert(0, "1")
     tF.grid(row=2, column=1, padx=5, pady=5, rowspan=1, columnspan=2, sticky="nsew")
     tf_swarm.append(tF)
 
-    createLabel.placement_label(tab, "Global velocity ratio", 3, 0, 5, 1, 1, 5)
+    createLabel.placement_label(tab, "Коэффициент, задающий влияние лучшей точки,\n найденной всеми частицами,\n на будущую скорость", 3, 0, 5, 1, 1, 5)
     tF = ttk.Entry(tab)
     tF.insert(0, "5")
     tF.grid(row=3, column=1, padx=5, pady=5, rowspan=1, columnspan=2, sticky="nsew")
     tf_swarm.append(tF)
 
-    createLabel.placement_label(tab, "Numbers of life", 4, 0, 5, 1, 1, 5)
+    createLabel.placement_label(tab, "Количество жизней", 4, 0, 5, 1, 1, 5)
     tF = ttk.Entry(tab)
     tF.insert(0, "100")
     tF.grid(row=4, column=1, padx=5, pady=5, rowspan=1, columnspan=2, sticky="nsew")
@@ -317,7 +330,7 @@ def createTab_Swarm(tab):
    # tF.grid(row=6, column=1, padx=5, pady=5, rowspan=1, columnspan=2, sticky="nsew")
   #  tf_swarm.append(tF)
 
-    btn = ttk.Button(tab, text='Call swarm',command=lambda: call_Swarm(tf_swarm))
+    btn = ttk.Button(tab, text='Вызвать рой',command=lambda: call_Swarm(tf_swarm))
     btn.grid(row=5, column=0, columnspan=3, padx=5, pady=5, sticky="nsew")
 
     global textReachSwarm
@@ -340,22 +353,31 @@ if __name__ == '__main__':
     frame3 = ttk.Frame(notebook)
     frame4 = ttk.Frame(notebook)
 
-    notebook.add(frame1, text="Gradient")
-    notebook.add(frame2,text="Simplex method")
-    notebook.add(frame3, text="Genetic")
-    notebook.add(frame4, text="Swarm")
+    notebook.add(frame1, text="Градиент")
+    notebook.add(frame2,text="Квадратичная ф-я")
+    notebook.add(frame3, text="Генетический")
+    notebook.add(frame4, text="Рой")
 
     createTab_gradient(frame1)
     createTab_simpleMethod(frame2)
     createTab_Genetic(frame3)
     createTab_Swarm(frame4)
 
-    createLabel.placement_label(root, "Choose Step", 1, 1, 5, 1, 3, 5)
+    createLabel.placement_label(root, "Шаг(епсилон)", 1, 1, 5, 1, 3, 5)
     textFieldStep = ttk.Entry(root)
     textFieldStep.insert(0, str(STEP))
 
-    lab_func = createLabel.placement_label(root, "Choose function", 3, 1, 5, 1, 3, 5)
-    comboBoxFunc = ttk.Combobox(root, values=["function_1", "function_2", "Bila", "Buta", "Bukina", "Eggholder","quadratic","rosenbrock","ROMA"],
+    lab_func = createLabel.placement_label(root, "Выбор базовой функции", 3, 1, 5, 1, 3, 5)
+    comboBoxFunc = ttk.Combobox(root, values=[
+        "Квадратная",
+        "Синусоида",
+        "Билла",
+        "Бута",
+        "Букина",
+        "Эгхолдера",
+        "Квадратичная",
+        "Розенброк",
+        "Рома"],
                                 state="readonly")
     comboBoxFunc.bind("<<ComboboxSelected>>", lambda event, cb=comboBoxFunc,lab = lab_func,field=textFieldStep: selectFunc(event, cb,lab,field))
 
@@ -366,12 +388,12 @@ if __name__ == '__main__':
     textFieldStep.grid(row=2, column=1,padx=5, pady=5,rowspan=1,columnspan=3,sticky="nsew")
 
 
-    clear_btn = ttk.Button(root, text="Clear points", command=clearPoints)
+    clear_btn = ttk.Button(root, text="Очистить точки с графика", command=clearPoints)
     clear_btn.grid(row=8, column=1, columnspan=3, padx=5, pady=5, sticky="nsew")
-    save_button = ttk.Button(root, text="Save Schedule", command=save_plot)
+    save_button = ttk.Button(root, text="Сохранить график", command=save_plot)
 
     save_button.grid(row=9, column=1, columnspan=3, padx=5, pady=5, sticky="nsew")
-    close_button = ttk.Button(root, text="Close Application", command=close_application)
+    close_button = ttk.Button(root, text="Закрыть приложение", command=close_application)
     close_button.grid(row=10, column=1, columnspan=3, padx=5, pady=5, sticky="nsew")
 
 

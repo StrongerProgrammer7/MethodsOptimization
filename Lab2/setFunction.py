@@ -1,11 +1,11 @@
 import numpy as np
 
 
-def function_1(x, y):
+def quadraticFunc(x, y):
     return x ** 2.0 + y ** 2.0
 
 
-def function_2(x, y):
+def sin_cos_func(x, y):
     return np.sin(x) * np.cos(y)
 
 
@@ -37,13 +37,13 @@ def func_ROMA(x,y):
     return 3*x*y-x**2*y-x*y**2
 
 chooseFunc = {
-    "function_1": {'f': function_1, 'from': -5, 'to': 5},
-    "function_2": {'f': function_2, 'from': -5, 'to': 5},
-    "Bila": {'f': function_Bila, 'from': -4.5, 'to': 4.5},
-    "Buta": {'f': function_Buta, 'from': -10, 'to': 10},
-    "Bukina": {'f': function_Bukina, 'x': {1: -15, 2: -5}, 'y': {1: -3, 2: 3}},
-    "Eggholder": {'f': function_Eggholder, 'from': -128, 'to': 128},
-    "quadratic": {'f': quadratic, 'from': -5, 'to': 5},
-    "rosenbrock":{'f':rosenbrock,'from':-10,'to':10},
-    "ROMA":{'f':func_ROMA,'from':-10,'to':10}
+    "Квадратная": {'f': quadraticFunc, 'from': -5, 'to': 5},
+    "Синусоида": {'f': sin_cos_func, 'from': -5, 'to': 5},
+    "Билла": {'f': function_Bila, 'from': -4.5, 'to': 4.5},
+    "Бута": {'f': function_Buta, 'from': -10, 'to': 10},
+    "Букина": {'f': function_Bukina, 'x': {1: -15, 2: -5}, 'y': {1: -3, 2: 3}},
+    "Эгхолдера": {'f': function_Eggholder, 'from': -128, 'to': 128},
+    "Квадратичная": {'f': quadratic, 'from': -5, 'to': 5},
+    "Розенброк":{'f':rosenbrock,'from':-10,'to':10},
+    "Рома":{'f':func_ROMA,'from':-10,'to':10}
 }

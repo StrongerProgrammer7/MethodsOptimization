@@ -12,6 +12,7 @@ y_data = []
 scatter_points = []
 extraScatter = []
 
+bestPointSet = []
 canvas_3d = None
 canvas_3d_widget = None
 
@@ -19,4 +20,4 @@ textReachGradientPoint = None
 textReachQuadPoint = None
 textReachGeneraticPoints = None
 textReachSwarm = None
-
+textReachBees= None

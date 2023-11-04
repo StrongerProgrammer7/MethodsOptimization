@@ -1,29 +1,34 @@
 from math import *
 import random
 import numpy as np
-from setFunction import Rastrigin
 
+ROUND = 3
 #Разделим пчёл на группы
-def divide_bees_by_group(number_group_best,number_group_perspective, valeu):
-    a = round((valeu/100*70)/number_group_best,0)
-    b = round((valeu - a*number_group_best) / number_group_perspective,0)
+def divide_bees_by_group(number_group_best, number_group_perspective, value):
+    a = round((value / 100 * 70) / number_group_best, 0)
+    b = round((value - a * number_group_best) / number_group_perspective, 0)
     return int(a),int(b)
 
 #Гененрация новой точки в области старой с заданным диапазоном и границами
 def create_new_point(min_x,max_x,now_x,spread_points):
-    rand_x = round(random.uniform(now_x - spread_points, now_x + spread_points), 3)
+    rand_x = round(random.uniform(now_x - spread_points, now_x + spread_points), ROUND)
     while(rand_x<min_x or rand_x>max_x):
-        rand_x = round(random.uniform(now_x - spread_points, now_x + spread_points), 3)
+        rand_x = round(random.uniform(now_x - spread_points, now_x + spread_points), ROUND)
     return rand_x
 
 def algorithm_of_bees(min_x,max_x,min_y,max_y,number_of_bees,function,time):
     #Пчёлы-разведчики
     scout_bees =[]
+    #number_of_bees = len(rand_x)
     for i in range(number_of_bees):
-        rand_x = round(random.uniform(min_x,max_x),3)
-        rand_y = round(random.uniform(min_y,max_y),3)
-        z = round(function(rand_x,rand_y),3)
+        rand_x = round(random.uniform(min_x,max_x),ROUND)
+        rand_y = round(random.uniform(min_y,max_y),ROUND)
+        z = round(function(rand_x,rand_y),ROUND)
         scout_bees.append([[rand_x,rand_y],z])
+
+
+
+
     #Результат первой разведки
     sort_scout_bees = sorted(scout_bees, key = lambda x:x[1])
 
@@ -61,16 +66,16 @@ def algorithm_of_bees(min_x,max_x,min_y,max_y,number_of_bees,function,time):
         for x,y in best_zones:
             for i in range(val_best):
 
-                rand_x = round(create_new_point(min_x,max_x, x,spread_points),3)
-                rand_y = round(create_new_point(min_y, max_y, y, spread_points), 3)
+                rand_x = round(create_new_point(min_x,max_x, x,spread_points),ROUND)
+                rand_y = round(create_new_point(min_y, max_y, y, spread_points), ROUND)
 
-                z = round(function(rand_x, rand_y), 3)
+                z = round(function(rand_x, rand_y), ROUND)
                 new_scout_beens.append([[rand_x, rand_y], z])
 
         for x,y in perspective_zones:
             for i in range(val_persp):
-                rand_x = round(create_new_point(min_x,max_x, x,spread_points),3)
-                rand_y = round(create_new_point(min_y, max_y, y, spread_points), 3)
+                rand_x = round(create_new_point(min_x,max_x, x,spread_points),ROUND)
+                rand_y = round(create_new_point(min_y, max_y, y, spread_points), ROUND)
                 z = round(function(rand_x, rand_y), 3)
                 new_scout_beens.append([[rand_x, rand_y], z])
          #Отсортируем еновые точки

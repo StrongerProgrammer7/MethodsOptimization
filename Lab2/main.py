@@ -56,6 +56,7 @@ def animate(frame, arr,best_result=None, textReach=None, marker=None):
                 point_z = current_function(arr[frame][0],arr[frame][1])
             else:
                 point_z = arr[frame][2]
+
             str_temp = "# " + str(frame) + " X=" + str(round(arr[frame][0], 4)) + " Y=" + str(round(arr[frame][1],4 )) + " Z=" + str(round(point_z, 4)) + "\n"
             textReach.insert(1.0, str_temp)
             if(len(arr) - 1 == frame):
@@ -176,10 +177,10 @@ def call_Swarm(arr_textField) -> None:
 def call_Bees(arr_textField) -> None:
     try:
         if(len(x_data) > 0 and len(y_data) > 0 and isNotEmptyFields(arr_textField)):
-            min_x = int(arr_textField[0].get())
-            max_x = int(arr_textField[1].get())
-            min_y = int(arr_textField[2].get())
-            max_y = int(arr_textField[3].get())
+            min_x = float(arr_textField[0].get())
+            max_x = float(arr_textField[1].get())
+            min_y = float(arr_textField[2].get())
+            max_y = float(arr_textField[3].get())
             numBees = int(arr_textField[4].get())
             time = int(arr_textField[5].get())
             rezusl, points = algorithm_of_bees(min_x, max_x, min_y, max_y, numBees, current_function, time)
@@ -190,8 +191,6 @@ def call_Bees(arr_textField) -> None:
                               interval=SPEED, repeat=False)
 
             canvas_3d.draw()
-
-            #messagebox.showerror("Error",      "Invalid data. min_y | min_x | max_x | max_y out of bounds BOUND: " + str(START) + ": " + str(END))
         else:
             print(f"size x = {len(x_data)}")
             print(f"size y = {len(y_data)}")
@@ -223,6 +222,7 @@ def buildBaseFunction():
     ax_3d.set_zlabel("Z-axis")
     global x_data
     global y_data
+    global z_data
     if type(START) == dict:
         x_data = np.arange(START[1], START[2], STEP)
         y_data = np.arange(END[1], END[2], STEP)
@@ -238,7 +238,7 @@ def buildBaseFunction():
     X, Y = np.meshgrid(x_data, y_data)
     Z = current_function(X, Y)
 
-    ax_3d.plot_surface(X, Y, Z, cmap=ColorFigure.VIRIDIS.value,alpha=0.7, antialiased=True,rstride=1, cstride=1)
+    ax_3d.plot_surface(X, Y, Z, cmap=ColorFigure.INFERNO.value,alpha=0.7, antialiased=True,rstride=1, cstride=1)
     canvas_3d.draw()
 
 def clearPoints():
@@ -254,6 +254,7 @@ def clearPoints():
     textReachQuadPoint.delete(1.0, tk.END)
     textReachGeneraticPoints.delete(1.0,tk.END)
     textReachSwarm.delete(1.0,tk.END)
+    textReachBees.delete(1.0,tk.END)
     canvas_3d.draw()
     scatter_points.clear()
     bestPointSet.clear()
@@ -381,25 +382,25 @@ def createTab_Bees(tab):
 
     createLabel.placement_label(tab, "Мин х", 0, 0, 5, 1, 1, 5)
     tF = ttk.Entry(tab)
-    tF.insert(0, "-10")
+    tF.insert(0, "-5.12")
     tF.grid(row=0, column=1, padx=5, pady=5, rowspan=1, columnspan=2, sticky="nsew")
     tf_bees.append(tF)
 
     createLabel.placement_label(tab, "Макс х", 1, 0, 5, 1, 1, 5)
     tF = ttk.Entry(tab)
-    tF.insert(0, "10")
+    tF.insert(0, "5.12")
     tF.grid(row=1, column=1, padx=5, pady=5, rowspan=1, columnspan=2, sticky="nsew")
     tf_bees.append(tF)
 
     createLabel.placement_label(tab, "Мин у", 2, 0, 5, 1, 1, 5)
     tF = ttk.Entry(tab)
-    tF.insert(0, "-10")
+    tF.insert(0, "-5.12")
     tF.grid(row=2, column=1, padx=5, pady=5, rowspan=1, columnspan=2, sticky="nsew")
     tf_bees.append(tF)
 
     createLabel.placement_label(tab, "Макс у", 3, 0, 5, 1, 1, 5)
     tF = ttk.Entry(tab)
-    tF.insert(0, "10")
+    tF.insert(0, "5.12")
     tF.grid(row=3, column=1, padx=5, pady=5, rowspan=1, columnspan=2, sticky="nsew")
     tf_bees.append(tF)
 

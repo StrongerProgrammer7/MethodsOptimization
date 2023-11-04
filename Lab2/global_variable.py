@@ -9,6 +9,7 @@ current_function = None
 x_data = []
 y_data = []
 
+
 scatter_points = []
 extraScatter = []
 

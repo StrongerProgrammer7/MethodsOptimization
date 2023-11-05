@@ -2,8 +2,8 @@ START = -5
 END = 5
 STEP = 0.5
 
-SPEED = 50
-SIZE_POINT = 30
+SPEED = 30
+SIZE_POINT = 20
 
 current_function = None
 x_data = []
@@ -19,8 +19,9 @@ canvas_3d_widget = None
 
 textReachGradientPoint = None
 textReachQuadPoint = None
-textReachGeneraticPoints = None
+textReachGenetic = None
 textReachSwarm = None
 textReachBees= None
 textReachBacterial= None
 textReachImmuneSystem= None
+textReachHybrid = None

@@ -1,4 +1,3 @@
-
 from outer_imports.imports_tkinter import *
 from outer_imports.matplotlib import *
 import global_variable as gv
@@ -6,16 +5,17 @@ import global_variable as gv
 from frontshow.placement_elements import (createLabel,
                                           createTab_gradient, createTab_simpleMethod,
                                           createTab_Genetic, createTab_Swarm,
-                                          createTab_Bees, createTab_Bacterial, createTab_ImmuneSystem)
+                                          createTab_Bees, createTab_Bacterial, createTab_ImmuneSystem, createTab_Hybrid)
 
 from frontshow.methods import save_plot,close_application,selectFunc,clearPoints
 from frontshow.calc_algorithm.gradientDescentShow import callGradient_DrawPoint
 from frontshow.calc_algorithm.simpleMethodShow import call_simplex_method
-from frontshow.calc_algorithm.geneticAlgorithm import call_geneticsAlgorithm
+from frontshow.calc_algorithm.geneticAlgorithmShow import call_geneticsAlgorithm
 from frontshow.calc_algorithm.swarmShow import call_Swarm
 from frontshow.calc_algorithm.beesShow import call_Bees
 from frontshow.calc_algorithm.bacterialShow import call_Bacterial
 from frontshow.calc_algorithm.aritificialImmuneSystemShow import call_AIimmuneSystem
+from frontshow.calc_algorithm.hybridShow import call_hybridAlgorithm
 
 if __name__ == '__main__':
     root = tk.Tk()
@@ -33,6 +33,7 @@ if __name__ == '__main__':
     frame5 = ttk.Frame(notebook)
     frame6 = ttk.Frame(notebook)
     frame7 = ttk.Frame(notebook)
+    frame8 = ttk.Frame(notebook)
 
     notebook.add(frame1, text="Градиент")
     notebook.add(frame2,text="Квадратичная ф-я")
@@ -41,6 +42,7 @@ if __name__ == '__main__':
     notebook.add(frame5, text="Пчелки")
     notebook.add(frame6, text="Бактерии")
     notebook.add(frame7, text="Имунная система")
+    notebook.add(frame8, text="Гибрид")
 
     createTab_gradient(frame1,callGradient_DrawPoint)
     createTab_simpleMethod(frame2,call_simplex_method)
@@ -49,6 +51,7 @@ if __name__ == '__main__':
     createTab_Bees(frame5,call_Bees)
     createTab_Bacterial(frame6,call_Bacterial)
     createTab_ImmuneSystem(frame7, call_AIimmuneSystem)
+    createTab_Hybrid(frame8, call_hybridAlgorithm)
 
     createLabel.placement_label(root, "Шаг(епсилон)", 1, 1, 5, 1, 3, 5)
     textFieldStep = ttk.Entry(root)

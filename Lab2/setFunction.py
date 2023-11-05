@@ -55,7 +55,7 @@ chooseFunc = {
     "Букина": {'f': function_Bukina, 'x': {1: -15, 2: -5}, 'y': {1: -3, 2: 3}},
     "Эгхолдера": {'f': function_Eggholder, 'from': -128, 'to': 128},
     "Квадратичная": {'f': quadratic, 'from': -5, 'to': 5},
-    "Розенброк":{'f':rosenbrock,'from':-3,'to':3},
+    "Розенброк":{'f':rosenbrock,'x': {1: -2, 2: 2}, 'y': {1: -1, 2: 3}},
     "Рома":{'f':func_ROMA,'from':-10,'to':10},
     "Растригина":{'f':Rastrigin,'from':-5.14,'to':5.14},
     "Химмельблау":{'f':Himmelblau,'from':-5,'to':5}

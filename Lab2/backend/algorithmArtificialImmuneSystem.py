@@ -1,6 +1,6 @@
-import random
-import math
 
+
+from Lab2.backend.body_AIImmuneSystem import *
 
 # Определение функции аффинности (минимизация функции Розенброка)
 def algorithm_artificial_immune_system(min_x,max_x,min_y,max_y,population_size,function,generations):
@@ -18,18 +18,11 @@ def algorithm_artificial_immune_system(min_x,max_x,min_y,max_y,population_size,f
         fitness_values = [function(x, y) for x, y in population]
     
         # Отбор антител
-        selected_population = []
-        for _ in range(population_size):
-            selected_index = random.choices(range(population_size), weights=[1 / v for v in fitness_values], k=1)[0]
-            selected_population.append(population[selected_index])
+        selected_population = antibody_selection(population,population_size,fitness_values)
     
         # Мутация
-        for i in range(population_size):
-            if random.random() < mutation_rate:
-                x, y = selected_population[i]
-                x += random.uniform(-0.1, 0.1)
-                y += random.uniform(-0.1, 0.1)
-                selected_population[i] = (x, y)
+        selected_population = mutation(selected_population,population_size,mutation_rate)
+
         #Запишем лучшую точку в данной популяции и её решение
         best_solution = min(population, key=lambda ind: function(ind[0], ind[1]))
         history_best_point.append((best_solution[0],best_solution[1],(function(best_solution[0], best_solution[1]))))

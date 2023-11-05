@@ -17,18 +17,14 @@ def buildBaseFunction(ax_3d):
         gv.x_data = np.arange(gv.START[1], gv.START[2], gv.STEP)
         gv.y_data = np.arange(gv.END[1], gv.END[2], gv.STEP)
     else:
-        if(gv.current_function.__name__ == "rosenbrock"):
-            gv.y_data = np.arange(-1, 3, gv.STEP)
-            gv.x_data = np.arange(-2, 2, gv.STEP)
-        else:
-            gv.x_data = np.arange(gv.START, gv.END, gv.STEP)
-            gv.y_data = np.arange(gv.START, gv.END, gv.STEP)
+        gv.x_data = np.arange(gv.START, gv.END, gv.STEP)
+        gv.y_data = np.arange(gv.START, gv.END, gv.STEP)
 
 
     X, Y = np.meshgrid(gv.x_data, gv.y_data)
     Z = gv.current_function(X, Y)
 
-    ax_3d.plot_surface(X, Y, Z, cmap=ColorFigure.INFERNO.value,alpha=0.7, antialiased=True,rstride=1, cstride=1)
+    ax_3d.plot_surface(X, Y, Z, cmap=ColorFigure.INFERNO.value,alpha=0.8, antialiased=True,rstride=1, cstride=1,zorder=-1)
     gv.canvas_3d.draw()
 
 def selectFunc(event,ax_3d,combo,lab,textField):
@@ -38,7 +34,7 @@ def selectFunc(event,ax_3d,combo,lab,textField):
             gv.STEP = float(textField.get())
             if selection in chooseFunc:
                 gv.current_function = chooseFunc[selection]['f']
-            if selection == "Букина":
+            if selection == "Букина" or selection == "Розенброк":
                 gv.START = chooseFunc[selection]['x']
                 gv.END = chooseFunc[selection]['y']
             else:
@@ -77,11 +73,12 @@ def clearPoints():
             i.remove()
     gv.textReachGradientPoint.delete(1.0,otk.tk.END)
     gv.textReachQuadPoint.delete(1.0, otk.tk.END)
-    gv.textReachGeneraticPoints.delete(1.0,otk.tk.END)
+    gv.textReachGenetic.delete(1.0, otk.tk.END)
     gv.textReachSwarm.delete(1.0,otk.tk.END)
     gv.textReachBees.delete(1.0,otk.tk.END)
     gv.textReachBacterial.delete(1.0,otk.tk.END)
     gv.textReachImmuneSystem.delete(1.0,otk.tk.END)
+    gv.textReachHybrid.delete(1.0,otk.tk.END)
     gv.canvas_3d.draw()
     gv.scatter_points.clear()
     gv.bestPointSet.clear()

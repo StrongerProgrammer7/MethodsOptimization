@@ -1,5 +1,4 @@
 import math
-
 import numpy as np
 
 
@@ -58,6 +57,6 @@ chooseFunc = {
     "Квадратичная": {'f': quadratic, 'from': -5, 'to': 5},
     "Розенброк":{'f':rosenbrock,'from':-3,'to':3},
     "Рома":{'f':func_ROMA,'from':-10,'to':10},
-    "Растригина":{'f':Rastrigin,'from':-5.12,'to':5.12},
-    "Химмельблау":{'f':Rastrigin,'from':-5,'to':5}
+    "Растригина":{'f':Rastrigin,'from':-5.14,'to':5.14},
+    "Химмельблау":{'f':Himmelblau,'from':-5,'to':5}
 }

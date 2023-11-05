@@ -19,7 +19,6 @@ def create_new_point(min_x,max_x,now_x,spread_points):
 def algorithm_of_bees(min_x,max_x,min_y,max_y,number_of_bees,function,time):
     #Пчёлы-разведчики
     scout_bees =[]
-    #number_of_bees = len(rand_x)
     for i in range(number_of_bees):
         rand_x = round(random.uniform(min_x,max_x),ROUND)
         rand_y = round(random.uniform(min_y,max_y),ROUND)
@@ -81,7 +80,12 @@ def algorithm_of_bees(min_x,max_x,min_y,max_y,number_of_bees,function,time):
          #Отсортируем еновые точки
         sort_scout_bees = sorted(new_scout_beens, key=lambda x: x[1])
 
-    return best_point,history_best_point
+    new_matrix = []
+    for i in range(len(history_best_point)):
+        for x_y, z in history_best_point[i]:
+            new_matrix.append([x_y[0], x_y[1], z])
+
+    return best_point,new_matrix
 
 
 # rezusl,points = algorithm_of_bees(-10,10,-10,10,200,Rastrigin,1000)

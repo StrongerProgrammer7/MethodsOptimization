@@ -2,8 +2,8 @@ START = -5
 END = 5
 STEP = 0.5
 
-SPEED = 100
-SIZE_POINT = 50
+SPEED = 50
+SIZE_POINT = 30
 
 current_function = None
 x_data = []
@@ -22,3 +22,4 @@ textReachQuadPoint = None
 textReachGeneraticPoints = None
 textReachSwarm = None
 textReachBees= None
+textReachBacterial= None

@@ -45,11 +45,11 @@ def mutate(offspring):
     return mutated_offspring
 
 # Генетический алгоритм
-def genetic_algorithm(population_size, num_generations,rosenbrock):
+def genetic_algorithm(population_size, num_generations, current_function):
     population = create_population(population_size)
     arr_points = []
     for generation in range(num_generations):
-        fitness_scores = compute_fitness(population,rosenbrock)
+        fitness_scores = compute_fitness(population, current_function)
         parents = select_best_individuals(population, fitness_scores, population_size // 2)
         offspring = crossover(parents, population_size - len(parents))
         mutated_offspring = mutate(offspring)
@@ -60,7 +60,12 @@ def genetic_algorithm(population_size, num_generations,rosenbrock):
 
 
     best_solution = population[fitness_scores.index(min(fitness_scores))]
-    return best_solution, min(fitness_scores),arr_points
+
+    points = []
+    for x,y in arr_points:
+        points.append([x,y,current_function(x,y)])
+
+    return best_solution, min(fitness_scores),points
 
 # Запуск генетического алгоритма
 #population_size = 50

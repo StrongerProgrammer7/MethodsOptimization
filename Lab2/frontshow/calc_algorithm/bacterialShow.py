@@ -15,12 +15,12 @@ def call_Bacterial(arr_textField) -> None:
             max_x = float(arr_textField[1].get())
             min_y = float(arr_textField[2].get())
             max_y = float(arr_textField[3].get())
-            isNotOutGraphic = False
+            isNotOutBounds = False
             if(type(gv.START) == dict):
-                isNotOutGraphic = isNotOutGraphicDict(gv.START,gv.END,min_x, max_x, min_y, max_y)
+                isNotOutBounds = isNotOutGraphicDict(gv.START,gv.END,min_x, max_x, min_y, max_y)
             else:
-                isNotOutGraphic = isNotOutGraphic(gv.START, gv.END, min_x, max_x, min_y, max_y)
-            if isNotOutGraphic:
+                isNotOutBounds = isNotOutGraphic(gv.START, gv.END, min_x, max_x, min_y, max_y)
+            if isNotOutBounds:
                 count_bacterials = int(arr_textField[4].get())
                 time = int(arr_textField[5].get())
                 points,bestPoint  = algorithm_is_bacterial(min_x, max_x, min_y, max_y, count_bacterials, gv.current_function, time,gv.STEP)

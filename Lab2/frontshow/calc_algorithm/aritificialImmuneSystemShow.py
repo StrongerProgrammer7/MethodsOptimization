@@ -16,13 +16,13 @@ def call_AIimmuneSystem(arr_textField) -> None:
             max_x = float(arr_textField[1].get())
             min_y = float(arr_textField[2].get())
             max_y = float(arr_textField[3].get())
-            isNotOutGraphic = False
+            isNotOutBounds = False
             if (type(gv.START) == dict):
-                isNotOutGraphic = isNotOutGraphicDict(gv.START, gv.END, min_x, max_x, min_y, max_y)
+                isNotOutBounds = isNotOutGraphicDict(gv.START, gv.END, min_x, max_x, min_y, max_y)
             else:
-                isNotOutGraphic = isNotOutGraphic(gv.START, gv.END, min_x, max_x, min_y, max_y)
+                isNotOutBounds = isNotOutGraphic(gv.START, gv.END, min_x, max_x, min_y, max_y)
 
-            if isNotOutGraphic:
+            if isNotOutBounds:
                 sizePopulize = int(arr_textField[4].get())
                 countGenerations = int(arr_textField[5].get())
                 best_point, points = algorithm_artificial_immune_system(min_x, max_x, min_y, max_y, sizePopulize, gv.current_function, countGenerations)

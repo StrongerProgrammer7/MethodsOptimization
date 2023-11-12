@@ -17,13 +17,13 @@ def call_Bees(arr_textField) -> None:
             min_y = float(arr_textField[2].get())
             max_y = float(arr_textField[3].get())
 
-            isNotOutGraphic = False
+            isNotOutBounds = False
             if (type(gv.START) == dict):
-                isNotOutGraphic = isNotOutGraphicDict(gv.START, gv.END, min_x, max_x, min_y, max_y)
+                isNotOutBounds = isNotOutGraphicDict(gv.START, gv.END, min_x, max_x, min_y, max_y)
             else:
-                isNotOutGraphic = isNotOutGraphic(gv.START, gv.END, min_x, max_x, min_y, max_y)
+                isNotOutBounds = isNotOutGraphic(gv.START, gv.END, min_x, max_x, min_y, max_y)
 
-            if isNotOutGraphic:
+            if isNotOutBounds:
                 numBees = int(arr_textField[4].get())
                 time = int(arr_textField[5].get())
                 rezusl, points = algorithm_of_bees(min_x, max_x, min_y, max_y, numBees, gv.current_function, time)

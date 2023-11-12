@@ -1,7 +1,7 @@
 from tkinter import messagebox
 from backend.algorithmBacterial import algorithm_is_bacterial
 from Lab2.backend.helper import getMatrixFromMatrixList
-from Lab2.backend.helper_predicat import isNotEmptyFields,isNotOutGraphic
+from Lab2.backend.helper_predicat import isNotEmptyFields, isNotOutGraphic, isNotOutGraphicDict
 
 import global_variable as gv
 import frontshow.animation as anim
@@ -15,7 +15,12 @@ def call_Bacterial(arr_textField) -> None:
             max_x = float(arr_textField[1].get())
             min_y = float(arr_textField[2].get())
             max_y = float(arr_textField[3].get())
-            if isNotOutGraphic(gv.START,gv.END,min_x, max_x, min_y, max_y):
+            isNotOutGraphic = False
+            if(type(gv.START) == dict):
+                isNotOutGraphic = isNotOutGraphicDict(gv.START,gv.END,min_x, max_x, min_y, max_y)
+            else:
+                isNotOutGraphic = isNotOutGraphic(gv.START, gv.END, min_x, max_x, min_y, max_y)
+            if isNotOutGraphic:
                 count_bacterials = int(arr_textField[4].get())
                 time = int(arr_textField[5].get())
                 points,bestPoint  = algorithm_is_bacterial(min_x, max_x, min_y, max_y, count_bacterials, gv.current_function, time,gv.STEP)

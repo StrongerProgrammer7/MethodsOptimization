@@ -2,7 +2,7 @@ from tkinter import messagebox
 
 from Lab2.backend.algorithmArtificialImmuneSystem import algorithm_artificial_immune_system
 from Lab2.backend.helper import getMatrixFromList
-from Lab2.backend.helper_predicat import isNotEmptyFields,isNotOutGraphic
+from Lab2.backend.helper_predicat import isNotEmptyFields, isNotOutGraphic, isNotOutGraphicDict
 
 import global_variable as gv
 import frontshow.animation as anim
@@ -16,7 +16,13 @@ def call_AIimmuneSystem(arr_textField) -> None:
             max_x = float(arr_textField[1].get())
             min_y = float(arr_textField[2].get())
             max_y = float(arr_textField[3].get())
-            if isNotOutGraphic(gv.START,gv.END,min_x,max_x,min_y,max_y):
+            isNotOutGraphic = False
+            if (type(gv.START) == dict):
+                isNotOutGraphic = isNotOutGraphicDict(gv.START, gv.END, min_x, max_x, min_y, max_y)
+            else:
+                isNotOutGraphic = isNotOutGraphic(gv.START, gv.END, min_x, max_x, min_y, max_y)
+
+            if isNotOutGraphic:
                 sizePopulize = int(arr_textField[4].get())
                 countGenerations = int(arr_textField[5].get())
                 best_point, points = algorithm_artificial_immune_system(min_x, max_x, min_y, max_y, sizePopulize, gv.current_function, countGenerations)

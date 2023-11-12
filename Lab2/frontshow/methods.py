@@ -21,6 +21,7 @@ def buildBaseFunction(ax_3d):
         gv.y_data = np.arange(gv.START, gv.END, gv.STEP)
 
 
+
     X, Y = np.meshgrid(gv.x_data, gv.y_data)
     Z = gv.current_function(X, Y)
 

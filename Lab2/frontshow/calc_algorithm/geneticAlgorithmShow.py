@@ -21,7 +21,7 @@ def call_geneticsAlgorithm(tf_populationSize,tf_numGeneratics,lab_optimalFunc,la
             lab_optimalValuePoints.configure(text="Оптимальное значение функции: " + str(round(best_fitness,3)))
             lab_optimalFunc.configure(text="Оптимальное значение переменных: " + str(round(best_solution[0])) + " : " + str(round(best_solution[1])))
 
-            bestResult = [best_solution[0], best_solution[1], best_fitness,colors.Color.YELLOW.value,"o",70]
+            bestResult = [best_solution[0], best_solution[1], best_fitness,colors.Color.YELLOW.value,"o",50]
 
             _ = omatpl.FuncAnimation(omatpl.fig_3d, anim.animate, frames=len(points), fargs=(points, bestResult, gv.textReachGenetic, 'v',), interval=gv.SPEED, repeat=False)
             gv.canvas_3d.draw()

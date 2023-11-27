@@ -1,7 +1,7 @@
 import outer_imports.imports_tkinter as otk
 import numpy as np
 from outer_imports.matplotlib import fig_3d
-from frontshow.Color import ColorFigure
+from Lab2.frontshow.Color import ColorFigure
 import global_variable as gv
 from Lab2.setFunction import chooseFunc
 
@@ -20,12 +20,10 @@ def buildBaseFunction(ax_3d):
         gv.x_data = np.arange(gv.START, gv.END, gv.STEP)
         gv.y_data = np.arange(gv.START, gv.END, gv.STEP)
 
-
-
     X, Y = np.meshgrid(gv.x_data, gv.y_data)
     Z = gv.current_function(X, Y)
-
-    ax_3d.plot_surface(X, Y, Z, cmap=ColorFigure.INFERNO.value,alpha=0.8, antialiased=True,rstride=1, cstride=1,zorder=-1)
+    #plot_wireframe
+    ax_3d.plot_surface(X, Y, Z, cmap=ColorFigure.WINTER.value,alpha=0.8,rstride=1, cstride=1,zorder=0)
     gv.canvas_3d.draw()
 
 def selectFunc(event,ax_3d,combo,lab,textField):
@@ -51,7 +49,6 @@ def selectFunc(event,ax_3d,combo,lab,textField):
 
 def save_plot():
     try:
-        # Save the 3D plot to a file
         file_path = otk.filedialog.asksaveasfilename(defaultextension=".png", filetypes=[("PNG files", "*.png")])
         if file_path:
             fig_3d.savefig(file_path)

@@ -24,7 +24,7 @@ def call_Bacterial(arr_textField) -> None:
                 count_bacterials = int(arr_textField[4].get())
                 time = int(arr_textField[5].get())
                 points,bestPoint  = algorithm_is_bacterial(min_x, max_x, min_y, max_y, count_bacterials, gv.current_function, time,gv.STEP)
-                bestResult = [bestPoint[0], bestPoint[1], bestPoint[2], colors.Color.CYAN.value, "o", 70]
+                bestResult = [bestPoint[0], bestPoint[1], bestPoint[2], colors.Color.CYAN.value, "o", gv.SIZE_POINT]
                 points = getMatrixFromMatrixList(points)
 
                 _ = omatpl.FuncAnimation(omatpl.fig_3d, anim.animate, frames=len(points), fargs=(points, bestResult, gv.textReachBacterial, 'o',),interval=gv.SPEED, repeat=False)

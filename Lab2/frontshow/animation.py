@@ -1,12 +1,12 @@
 import random
 import outer_imports.matplotlib  as omatpl
 import global_variable as gv
-import frontshow.Color as colors
+import Lab2.frontshow.Color as colors
 
 def animate(frame, arr,best_result=None, textReach=None, marker=None):
     if len(arr) > frame:
         size_point = gv.SIZE_POINT
-        color = colors.Color.GREEN.value
+        color = colors.Color.BLACK.value
         if (len(arr) - 1 == frame):
             color = colors.Color.RED.value
             size_point = 50
@@ -22,9 +22,9 @@ def animate(frame, arr,best_result=None, textReach=None, marker=None):
             str_temp = "# " + str(frame) + " X=" + str(round(arr[frame][0], 4)) + " Y=" + str(round(arr[frame][1],4 )) + " Z=" + str(round(point_z, 4)) + "\n"
             textReach.insert(1.0, str_temp)
             if(len(arr) - 1 == frame):
-                gv.extraScatter.append(omatpl.ax_3d.scatter(arr[frame][0], arr[frame][1], point_z, c=color, marker=marker, s=size_point, zorder=4))
+                gv.extraScatter.append(omatpl.ax_3d.scatter(arr[frame][0], arr[frame][1], point_z, c=color, marker=marker, s=size_point, zorder=1))
             else:
-                gv.scatter_points.append(omatpl.ax_3d.scatter(arr[frame][0], arr[frame][1], point_z, c=color, marker=marker, s=size_point,zorder=2))
+                gv.scatter_points.append(omatpl.ax_3d.scatter(arr[frame][0], arr[frame][1], point_z, c=color, marker=marker, s=size_point,zorder=1))
 
             if(len(gv.scatter_points)>15 and  len(arr)-2 > frame):
                 random_countForDel = random.randint(2, 5)

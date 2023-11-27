@@ -41,7 +41,7 @@ if __name__ == '__main__':
     notebook.add(frame4, text="Рой")
     notebook.add(frame5, text="Пчелки")
     notebook.add(frame6, text="Бактерии")
-    notebook.add(frame7, text="Имунная система")
+    notebook.add(frame7, text="Иммунная система")
     notebook.add(frame8, text="Гибрид")
 
     createTab_gradient(frame1,callGradient_DrawPoint)
@@ -72,25 +72,23 @@ if __name__ == '__main__':
         "Химмельблау"],state="readonly")
     comboBoxFunc.bind("<<ComboboxSelected>>", lambda event, cb=comboBoxFunc,lab = lab_func,field=textFieldStep: selectFunc(event, ax_3d,cb,lab,field))
 
-    canvas_3d_widget.grid(row=0, column=0, rowspan=20, padx=5, pady=5) #matplotlib
-    notebook.grid(row=0,column=1,padx=5,pady=5,rowspan=1,columnspan=3,sticky="nsew")
+    canvas_3d_widget.grid(row=0, column=0, padx=5, pady=0) #matplotlib
+    notebook.grid(row=0,column=1,padx=5,pady=0,columnspan=5,sticky="nsew")
 
     comboBoxFunc.grid(row=4,column=1,padx=5,pady=5,rowspan=1,columnspan=3,sticky="nsew")
     textFieldStep.grid(row=2, column=1,padx=5, pady=5,rowspan=1,columnspan=3,sticky="nsew")
 
 
     clear_btn = ttk.Button(root, text="Очистить точки с графика", command=clearPoints)
-    clear_btn.grid(row=8, column=1, columnspan=3, padx=5, pady=5, sticky="nsew")
+    clear_btn.grid(row=2, column=0, columnspan=3, padx=5, pady=5, sticky="nsew")
+
     save_button = ttk.Button(root, text="Сохранить график", command=save_plot)
-
-    save_button.grid(row=9, column=1, columnspan=3, padx=5, pady=5, sticky="nsew")
+    save_button.grid(row=3, column=0, columnspan=3, padx=5, pady=5, sticky="nsew")
     close_button = ttk.Button(root, text="Закрыть приложение",  command=lambda: close_application(root))
-    close_button.grid(row=10, column=1, columnspan=3, padx=5, pady=5, sticky="nsew")
+    close_button.grid(row=4, column=0, columnspan=3, padx=5, pady=5, sticky="nsew")
 
 
-    root.grid_rowconfigure(0, weight=1)
     root.grid_rowconfigure(12, weight=1)
-    root.grid_columnconfigure(0, weight=1)
     root.grid_columnconfigure(3, weight=1)
 
     root.mainloop()

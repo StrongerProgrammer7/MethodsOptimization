@@ -1,11 +1,14 @@
 import outer_imports.imports_tkinter as otk
 import numpy as np
 from outer_imports.matplotlib import fig_3d
-from Lab2.frontshow.Color import ColorFigure
+from Lab2.frontshow.Color import ColorFigure, colors_3DGraphic, colors_points
 import global_variable as gv
 from Lab2.setFunction import chooseFunc
 
-def buildBaseFunction(ax_3d):
+def buildBaseFunction(ax_3d,colorGraphic=ColorFigure.WINTER.value):
+    if(len(gv.scatter_points) >0 or len(gv.bestPointSet)> 0 or len(gv.extraScatter) > 0):
+        otk.messagebox.showinfo("Warning", "Clear points!")
+        return
     ax_3d.clear()
 
     ax_3d.set_title("3D Matplotlib Plot")
@@ -23,12 +26,15 @@ def buildBaseFunction(ax_3d):
     X, Y = np.meshgrid(gv.x_data, gv.y_data)
     Z = gv.current_function(X, Y)
     #plot_wireframe
-    ax_3d.plot_surface(X, Y, Z, cmap=ColorFigure.WINTER.value,alpha=0.8,rstride=1, cstride=1,zorder=0)
+    ax_3d.plot_surface(X, Y, Z, cmap=colorGraphic,alpha=0.8,rstride=1, cstride=1,zorder=0)
     gv.canvas_3d.draw()
 
 def selectFunc(event,ax_3d,combo,lab,textField):
     try:
         if len(textField.get()) > 0 and textField.get()!='' and float(textField.get())!=0:
+            #if(gv.COLOR_3DGRAPHIC == None):
+                #otk.messagebox.showerror("Error", "Choose color")
+                #return
             selection = combo.get()
             gv.STEP = float(textField.get())
             if selection in chooseFunc:
@@ -40,12 +46,36 @@ def selectFunc(event,ax_3d,combo,lab,textField):
                 gv.START = chooseFunc[selection]['from']
                 gv.END = chooseFunc[selection]['to']
 
-            buildBaseFunction(ax_3d)
+            buildBaseFunction(ax_3d,gv.COLOR_3DGRAPHIC)
             lab.config(text="Функция:" + selection)
         else:
             otk.messagebox.showerror("Error", "Invalid input. Please enter numeric values step.")
     except ValueError:
         otk.messagebox.showerror("Error", "Invalid input. Please enter numeric values.")
+
+def selectColor(event,combo,ax_3d):
+    try:
+        selection = combo.get()
+        if gv.COLOR_3DGRAPHIC == None:
+            gv.COLOR_3DGRAPHIC = colors_3DGraphic[selection]
+        else:
+            gv.COLOR_3DGRAPHIC = colors_3DGraphic[selection]
+            buildBaseFunction(ax_3d,gv.COLOR_3DGRAPHIC)
+    except ValueError:
+        otk.messagebox.showerror("Error", "Problem with color graphic. Send message admin")
+
+def selectColorPoints(event,combo):
+    try:
+        selection = combo.get()
+        gv.COLOR_POINT = colors_points[selection]
+        # If you, don't want to delete point and different color for every run, comment this code
+        if(len(gv.scatter_points) >0):
+            for point in gv.scatter_points:
+                point.set_facecolors(gv.COLOR_POINT)
+            gv.canvas_3d.draw()
+
+    except ValueError:
+        otk.messagebox.showerror("Error", "Problem with color point. Send message admin")
 
 def save_plot():
     try:

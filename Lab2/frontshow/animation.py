@@ -6,10 +6,10 @@ import Lab2.frontshow.Color as colors
 def animate(frame, arr,best_result=None, textReach=None, marker=None):
     if len(arr) > frame:
         size_point = gv.SIZE_POINT
-        color = colors.Color.BLACK.value
+        color = gv.COLOR_POINT
         if (len(arr) - 1 == frame):
             color = colors.Color.RED.value
-            size_point = 50
+            size_point = 40
             if(best_result!=None):
                 gv.bestPointSet.append(omatpl.ax_3d.scatter(best_result[0], best_result[1], best_result[2], c=best_result[3], marker=best_result[4], s=best_result[5]))
         if (textReach != None):
@@ -25,8 +25,8 @@ def animate(frame, arr,best_result=None, textReach=None, marker=None):
                 gv.extraScatter.append(omatpl.ax_3d.scatter(arr[frame][0], arr[frame][1], point_z, c=color, marker=marker, s=size_point, zorder=1))
             else:
                 gv.scatter_points.append(omatpl.ax_3d.scatter(arr[frame][0], arr[frame][1], point_z, c=color, marker=marker, s=size_point,zorder=1))
-
-            if(len(gv.scatter_points)>15 and  len(arr)-2 > frame):
+            # If you, don't want to delete point , comment this code
+            if len(gv.scatter_points)>15 and  len(arr)-2 > frame:
                 random_countForDel = random.randint(2, 5)
                 for i in range(0,random_countForDel):
                     randomPos = random.randint(0,len(gv.scatter_points)-2)

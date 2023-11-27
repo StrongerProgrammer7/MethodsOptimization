@@ -7,7 +7,7 @@ from frontshow.placement_elements import (createLabel,
                                           createTab_Genetic, createTab_Swarm,
                                           createTab_Bees, createTab_Bacterial, createTab_ImmuneSystem, createTab_Hybrid)
 
-from frontshow.methods import save_plot,close_application,selectFunc,clearPoints
+from frontshow.methods import save_plot, close_application, selectFunc, clearPoints, selectColor, selectColorPoints
 from frontshow.calc_algorithm.gradientDescentShow import callGradient_DrawPoint
 from frontshow.calc_algorithm.simpleMethodShow import call_simplex_method
 from frontshow.calc_algorithm.geneticAlgorithmShow import call_geneticsAlgorithm
@@ -78,6 +78,36 @@ if __name__ == '__main__':
     comboBoxFunc.grid(row=4,column=1,padx=5,pady=5,rowspan=1,columnspan=3,sticky="nsew")
     textFieldStep.grid(row=2, column=1,padx=5, pady=5,rowspan=1,columnspan=3,sticky="nsew")
 
+    comboBoxColorGraphic = ttk.Combobox(root, values=[
+        "plasma",
+        "viridis",
+        "inferno",
+        "magma",
+        "cividis",
+        "binary",
+        "spring",
+        "summer",
+        "winter",
+        "autumn",
+        "bone"], state="readonly")
+    comboBoxColorGraphic.bind("<<ComboboxSelected>>",lambda event, cb=comboBoxColorGraphic: selectColor(event, cb,ax_3d))
+    comboBoxColorGraphic.grid(row=1, column=0, padx=90, pady=5, sticky="w")
+    createLabel.placement_label(root, "Цвет графика", 1, 0, 0, 1, 1, 5,sticky="w")
+
+    comboBoxColorPoints = ttk.Combobox(root, values=[
+        "red",
+        "green",
+        "blue",
+        "cyan",
+        "yellow",
+        "pink",
+        "black",
+        "white",
+        "gray"], state="readonly")
+    comboBoxColorPoints.bind("<<ComboboxSelected>>",
+                              lambda event, cb=comboBoxColorPoints: selectColorPoints(event, cb))
+    comboBoxColorPoints.grid(row=1, column=0, padx=5, pady=5, sticky="e")
+    createLabel.placement_label(root, "Цвет точек", 1, 0, 150, 1, 1, 5, sticky="e")
 
     clear_btn = ttk.Button(root, text="Очистить точки с графика", command=clearPoints)
     clear_btn.grid(row=2, column=0, columnspan=3, padx=5, pady=5, sticky="nsew")

@@ -27,7 +27,7 @@ def call_Bees(arr_textField) -> None:
                 numBees = int(arr_textField[4].get())
                 time = int(arr_textField[5].get())
                 rezusl, points = algorithm_of_bees(min_x, max_x, min_y, max_y, numBees, gv.current_function, time)
-                bestResult = [rezusl[0][0], rezusl[0][1], rezusl[1], colors.Color.CYAN.value, "o", 70]
+                bestResult = [rezusl[0][0], rezusl[0][1], rezusl[1], colors.Color.CYAN.value, "o", 50]
 
                 _ = omatpl.FuncAnimation(omatpl.fig_3d, anim.animate, frames=len(points), fargs=(points, bestResult, gv.textReachBees, 'o',),interval=gv.SPEED, repeat=False)
 

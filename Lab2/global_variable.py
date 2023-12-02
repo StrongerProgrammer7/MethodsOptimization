@@ -4,7 +4,8 @@ STEP = 0.5
 
 SPEED = 30
 SIZE_POINT = 20
-
+COLOR_3DGRAPHIC = None
+COLOR_POINT = "black"
 current_function = None
 x_data = []
 y_data = []

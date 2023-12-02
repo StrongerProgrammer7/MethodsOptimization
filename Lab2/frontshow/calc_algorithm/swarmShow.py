@@ -24,7 +24,7 @@ def call_Swarm(arr_textField) -> None:
             #print("РЕЗУЛЬТАТ:", a.globalBestScore, "В ТОЧКЕ:", a.globalBestPos)
 
            # bestPointSet.append(ax_3d.scatter(a.globalBestPos[0], a.globalBestPos[1], a.globalBestScore, c=Color.BLUE.value, marker="o", s=250))
-            bestResult = [a.globalBestPos[0],a.globalBestPos[1],a.globalBestScore,colors.Color.BLUE.value, "o",70]
+            bestResult = [a.globalBestPos[0],a.globalBestPos[1],a.globalBestScore,colors.Color.BLUE.value, "o",50]
             points = deleteDuplicateValue(points)
             _ = omatpl.FuncAnimation(omatpl.fig_3d, anim.animate, frames=len(points), fargs=(points,bestResult, gv.textReachSwarm,'x',), interval=gv.SPEED, repeat=False)
             gv.canvas_3d.draw()

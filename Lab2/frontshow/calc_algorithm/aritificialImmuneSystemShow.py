@@ -26,7 +26,7 @@ def call_AIimmuneSystem(arr_textField) -> None:
                 sizePopulize = int(arr_textField[4].get())
                 countGenerations = int(arr_textField[5].get())
                 best_point, points = algorithm_artificial_immune_system(min_x, max_x, min_y, max_y, sizePopulize, gv.current_function, countGenerations)
-                bestResult = [best_point[0], best_point[1], best_point[2], colors.Color.CYAN.value, "o", 70]
+                bestResult = [best_point[0], best_point[1], best_point[2], colors.Color.CYAN.value, "o", 50]
                 points = getMatrixFromList(points)
                 _ = omatpl.FuncAnimation(omatpl.fig_3d, anim.animate, frames=len(points), fargs=(points, bestResult, gv.textReachImmuneSystem, 'o',),interval=gv.SPEED, repeat=False)
 

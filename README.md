@@ -1,5 +1,12 @@
 <sub>**Course "Methods of Optimization" takes place within the walls of the university and is paired with a colleague. **</sub> 
 # MethodsOptimization
+***Navigation README***
+- <a href="https://github.com/StrongerProgrammer7/MethodsOptimization#problem-realization-and-todo" > Problems </a>
+- <a href="https://github.com/StrongerProgrammer7/MethodsOptimization#available-function-and-color-in-the-table" > Available function and color in the table </a>
+- <a href="https://github.com/StrongerProgrammer7/MethodsOptimization#files-pdf" > Files </a>
+- <a href="https://github.com/StrongerProgrammer7/MethodsOptimization#graphics" > Functions </a>
+- <a href="https://github.com/StrongerProgrammer7/MethodsOptimization#work-algorithms" > Work algorithm </a>
+
 
 ## Introduction
 All documents on the Russian language and pdf format. They are include description every algorithm of optimization, exclude the hybrid algorithm.

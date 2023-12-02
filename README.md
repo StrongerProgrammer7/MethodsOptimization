@@ -9,6 +9,7 @@
 
 
 ## Introduction
+***Using only Lab2 folder***
 All documents on the Russian language and pdf format. They are include description every algorithm of optimization, exclude the hybrid algorithm.
 All packages in the files requierments.txt
 ```sh

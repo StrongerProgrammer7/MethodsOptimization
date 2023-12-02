@@ -1,8 +1,6 @@
-import random
-import math
-
 import copy
-#класс - Бактерия
+import random
+
 class Bacteria:
     def __init__(self, min_x, max_x, min_y, max_y, function):
         self.min_x = min_x

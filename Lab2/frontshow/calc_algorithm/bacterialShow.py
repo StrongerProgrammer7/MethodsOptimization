@@ -1,12 +1,12 @@
 from tkinter import messagebox
 from backend.algorithmBacterial import algorithm_is_bacterial
-from Lab2.backend.helper import getMatrixFromMatrixList
-from Lab2.backend.helper_predicat import isNotEmptyFields, isNotOutGraphic, isNotOutGraphicDict
+from backend.helper import getMatrixFromMatrixList
+from backend.helper_predicat import isNotEmptyFields, isNotOutGraphic, isNotOutGraphicDict
 
 import global_variable as gv
 import frontshow.animation as anim
 import outer_imports.matplotlib  as omatpl
-import Lab2.frontshow.Color as colors
+import frontshow.Color as colors
 
 def call_Bacterial(arr_textField) -> None:
     try:

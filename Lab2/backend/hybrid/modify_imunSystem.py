@@ -1,4 +1,4 @@
-from Lab2.backend.body_AIImmuneSystem import *
+from backend.body_AIImmuneSystem import *
 
 # Определение функции аффинности (минимизация функции Розенброка)
 def algorithm_artificial_immune_system(population,population_size, function, generations):

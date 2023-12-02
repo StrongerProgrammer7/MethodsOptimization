@@ -1,5 +1,5 @@
-from Lab2.backend.hybrid.modify_genetic import *
-from Lab2.backend.hybrid.modify_imunSystem import *
+from backend.hybrid.modify_genetic import *
+from backend.hybrid.modify_imunSystem import *
 
 def getHistoryBestPoint(population,func):
 

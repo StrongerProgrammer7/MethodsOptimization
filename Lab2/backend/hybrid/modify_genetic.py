@@ -1,4 +1,4 @@
-from Lab2.backend.body_genetic import *
+from backend.body_genetic import *
 
 def genetic_algorithm(population,function):
     population_size = len(population)

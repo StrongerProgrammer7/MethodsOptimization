@@ -1,7 +1,7 @@
 import random
 import outer_imports.matplotlib  as omatpl
 import global_variable as gv
-import Lab2.frontshow.Color as colors
+import frontshow.Color as colors
 
 def animate(frame, arr,best_result=None, textReach=None, marker=None):
     if len(arr) > frame:

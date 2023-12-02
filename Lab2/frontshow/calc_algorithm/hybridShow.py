@@ -7,7 +7,7 @@ import frontshow.animation as anim
 import outer_imports.matplotlib  as omatpl
 import frontshow.Color as colors
 
-from Lab2.backend.helper import getMatrixFromMatrixList
+from backend.helper import getMatrixFromMatrixList
 
 
 def call_hybridAlgorithm(tf_populationSize,tf_numGeneratics,lab_optimalFunc,lab_optimalValuePoints) -> None:

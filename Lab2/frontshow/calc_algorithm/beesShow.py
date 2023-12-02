@@ -1,13 +1,13 @@
 from tkinter import messagebox
 
 from backend.algorithm_of_bees import algorithm_of_bees
-from Lab2.backend.helper import deleteDuplicateValue
-from Lab2.backend.helper_predicat import isNotEmptyFields, isNotOutGraphic, isNotOutGraphicDict
+from backend.helper import deleteDuplicateValue
+from backend.helper_predicat import isNotEmptyFields, isNotOutGraphic, isNotOutGraphicDict
 
 import global_variable as gv
 import frontshow.animation as anim
 import outer_imports.matplotlib  as omatpl
-import Lab2.frontshow.Color as colors
+import frontshow.Color as colors
 
 def call_Bees(arr_textField) -> None:
     try:

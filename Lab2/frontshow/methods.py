@@ -1,9 +1,9 @@
 import outer_imports.imports_tkinter as otk
 import numpy as np
 from outer_imports.matplotlib import fig_3d
-from Lab2.frontshow.Color import ColorFigure, colors_3DGraphic, colors_points
+from frontshow.Color import ColorFigure, colors_3DGraphic, colors_points
 import global_variable as gv
-from Lab2.setFunction import chooseFunc
+from setFunction import chooseFunc
 
 def buildBaseFunction(ax_3d,colorGraphic=ColorFigure.WINTER.value):
     if(len(gv.scatter_points) >0 or len(gv.bestPointSet)> 0 or len(gv.extraScatter) > 0):

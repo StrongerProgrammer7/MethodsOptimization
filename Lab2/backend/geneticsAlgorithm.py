@@ -1,5 +1,5 @@
-from Lab2.backend.body_genetic import *
-import global_variable as gv
+from backend.body_genetic import *
+
 
 def genetic_algorithm(min_x,max_x,min_y,max_y,population_size, num_generations, current_function):
     population = create_population(min_x,max_x,min_y,max_y,population_size)

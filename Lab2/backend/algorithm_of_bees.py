@@ -1,6 +1,4 @@
-from math import *
 import random
-import numpy as np
 
 ROUND = 3
 #Разделим пчёл на группы

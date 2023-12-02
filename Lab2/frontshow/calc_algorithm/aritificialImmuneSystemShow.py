@@ -1,13 +1,13 @@
 from tkinter import messagebox
 
-from Lab2.backend.algorithmArtificialImmuneSystem import algorithm_artificial_immune_system
-from Lab2.backend.helper import getMatrixFromList
-from Lab2.backend.helper_predicat import isNotEmptyFields, isNotOutGraphic, isNotOutGraphicDict
+from backend.algorithmArtificialImmuneSystem import algorithm_artificial_immune_system
+from backend.helper import getMatrixFromList
+from backend.helper_predicat import isNotEmptyFields, isNotOutGraphic, isNotOutGraphicDict
 
 import global_variable as gv
 import frontshow.animation as anim
 import outer_imports.matplotlib  as omatpl
-import Lab2.frontshow.Color as colors
+import frontshow.Color as colors
 
 def call_AIimmuneSystem(arr_textField) -> None:
     try:

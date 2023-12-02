@@ -1,13 +1,13 @@
 from tkinter import messagebox
 
-from Lab2.backend.Swarm_X2 import Swarm
-from Lab2.backend.helper import deleteDuplicateValue
-from Lab2.backend.helper_predicat import isNotEmptyFields
+from backend.Swarm_X2 import Swarm
+from backend.helper import deleteDuplicateValue
+from backend.helper_predicat import isNotEmptyFields
 
 import global_variable as gv
 import frontshow.animation as anim
 import outer_imports.matplotlib  as omatpl
-import Lab2.frontshow.Color as colors
+import frontshow.Color as colors
 
 def call_Swarm(arr_textField) -> None:
     try:

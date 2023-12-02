@@ -1,5 +1,5 @@
 import random
-from Lab2.backend.body_AIImmuneSystem import *
+from backend.body_AIImmuneSystem import *
 
 def antibody_selection(population,population_size,fitness_values):
     selected_population = []
